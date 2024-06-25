@@ -40,13 +40,13 @@ export default function TokenSelect(props: TokenSelectProps) {
                     className=""
                 >
                     {selectedToken && <Image src={selectedToken.image} alt="" width={50} height={50} className="w-4 h-4 mr-1" />}
-                    {selectedToken?.symbol ?? "Select token..."}
+                    {selectedToken?.symbol ?? "Seleccionar token..."}
                     <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                 </Button>
             </PopoverTrigger>
             <PopoverContent className="p-0 w-[150px]">
                 <Command>
-                    <CommandInput placeholder="Search token..." />
+                    <CommandInput placeholder="Buscar token..." />
                     <CommandEmpty>No token found.</CommandEmpty>
                     <CommandGroup>
                         {Object.entries(tokens).map(([key, token]) => (

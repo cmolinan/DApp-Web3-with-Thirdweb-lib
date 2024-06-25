@@ -8,7 +8,7 @@ import { Toaster } from "react-hot-toast";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "TokenSwap",
+  title: "Andino Megacamp Project",
   description: "A UniSwap frontend powered by Thirdweb",
 };
 

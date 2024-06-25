@@ -8,11 +8,10 @@ import anvil from "@/lib/anvil";
 export default function ConnectButton() {
     const wallets = [
         createWallet("io.metamask"),
-        createWallet("com.coinbase.wallet"),
-        createWallet("me.rainbow"),
+        createWallet("com.coinbase.wallet")
     ];
 
     return (
-        <ThirdwebConnectButton connectButton={{ className: "w-full" }} theme="light" chain={anvil} client={client} wallets={wallets} />
+        <ThirdwebConnectButton connectButton={{ className: "w-full" }} theme="light" chain={anvil} client={client} wallets={wallets} />        
     )
 }
