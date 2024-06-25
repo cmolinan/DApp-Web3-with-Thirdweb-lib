@@ -34,6 +34,7 @@ function SwapButton({ tokenIn, tokenOut, amount, fee, recipient }: { tokenIn: To
     useEffect(() => {
         refetchAllowance();
         refetchBalance()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [tokenIn, recipient]);
 
     if (balance < amount) {

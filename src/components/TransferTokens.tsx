@@ -58,10 +58,28 @@ export default function TransferTokens() {
 
     const [balance, setBalance] = useState(BigInt(0));
 
-    const refetchBalance = useCallback(() => fetchBalance(inputToken, account.address).then(setBalance), [inputToken, account?.address]);
+    const refetchBalance = useCallback(() => {
+        if (inputToken && account?.address) {
+          fetchBalance(inputToken, account?.address as Address).then(setBalance);
+        }
+      }, [inputToken, account?.address]);
+
+    const [isValidAddress, setIsValidAddress] = useState<boolean>(true);
+
+    const validateAddress = (address: string): boolean => {
+        return /^0x[a-fA-F0-9]{40}$/.test(address);
+    };
+
+    const handleAddressChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const address = e.target.value || "";
+        
+        setDestAddress(address);
+        setIsValidAddress(validateAddress(address));
+    };
 
     useEffect(() => {        
         if (canGetBalance) refetchBalance()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [inputToken, account?.address]);
 
     return <Card className="">
@@ -86,24 +104,29 @@ export default function TransferTokens() {
                         className="w-full"
                     />
                 </div>
-                <div className="flex w-full items-center gap-2" style={{fontSize: '14px', fontWeight:'500', paddingLeft:'15px'}}>
+                <div className="flex w-full items-center gap-2 text-sm font-medium pl-4">
                     DESTINATARIO
                     <Input
                         placeholder="0x" 
                         type="text" 
-                        onChange={(e) => setDestAddress(e.target.value || "")}
-                        className="w-full" 
+                        value={destAddress}                        
+                        onChange={handleAddressChange}                        
+                        className={`w-full ${isValidAddress ? "" : "border-red-500"}`}
                     />
 
                 </div>
 
                 {canTransfer ?
-                    balance > toUnits(amount.toString(), inputToken?.decimals ?? 18) ?                    
-                        <TransferButton
-                            tokenIn={inputToken}
-                            amount={toUnits(amount.toString(), inputToken?.decimals ?? 18)}
-                            recipient={destAddress as Address}
-                        />
+                    balance > toUnits(amount.toString(), inputToken?.decimals ?? 18) ?
+                        isValidAddress ?
+                            <TransferButton
+                                tokenIn={inputToken}
+                                amount={toUnits(amount.toString(), inputToken?.decimals ?? 18)}
+                                recipient={destAddress as Address}
+                            />
+                            :<div className="font-semibold text-red-500">
+                                Address invalida !
+                            </div>
                         :<div className="font-semibold text-red-500">
                             Tokens {inputToken.symbol} insuficientes !
                         </div>
