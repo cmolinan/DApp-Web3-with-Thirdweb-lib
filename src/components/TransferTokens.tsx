@@ -2,44 +2,39 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "./ui/input";
-import { Address, toTokens, toUnits, toWei } from "thirdweb";
+import { Address, toTokens, toUnits } from "thirdweb";
 import { useActiveAccount } from "thirdweb/react";
-import approve from "@/transactions/approve";
-import swap from "@/transactions/swap";
-import { ROUTER, tokens } from "@/constants";
+import { tokens } from "@/constants";
 import TransactionButton from "./TransactionButton";
 import TokenSelect from "./TokenSelect";
 import Token from "@/types/token";
-import useQuote from "@/hooks/useQuote";
-import { cn } from "@/lib/utils";
-import { Loader2Icon } from "lucide-react";
-import { allowance as thirdwebAllowance, balanceOf } from "thirdweb/extensions/erc20";
+import { balanceOf } from "thirdweb/extensions/erc20";
 import getContract from "@/lib/get-contract";
+import transfer from "@/transactions/transfer";
 
 const fetchBalance = async (tokenIn: Token, recipient: Address) => {
     return balanceOf({ contract: getContract({ address: tokenIn.address }), address: recipient });
 }
 
-
 function TransferButton({ tokenIn, amount, recipient }: { tokenIn: Token, amount: bigint,  recipient: Address }) {
-
-    return (    
-        <span>Se muestra boton para transferir</span> 
-        // <TransactionButton
-        // transaction={async () => {
-        //     return transferp({
-        //         inputToken: tokenIn,
-        //         inputAmount: amount,        
-        //         recipient: recipient,        
-        //     });
-        // }}
-        // onSent="Transferencia en proceso ..."
-        //     onConfirmed="Transferecia exitosa"
-        //     onError="No se pudo efectuar la transferencia"
-        //     successCallback={refetchBalance}
-        // >
-        //     Transferir
-        // </TransactionButton>
+    
+    return (
+      <TransactionButton
+        transaction={async () => {
+          // Create a transaction object and return it
+          return transfer({
+            token: tokenIn,
+            amount,
+            recipient            
+          });
+        }}
+        onSent="Transferencia enviada ..."
+        onConfirmed="Transferencia exitosa"
+        onError="No se pudo transferir"
+        successCallback={() => console.log('Transferencia exitosa')}
+      >
+        Ejecutar Transferencia
+      </TransactionButton>
     )
 }
 
