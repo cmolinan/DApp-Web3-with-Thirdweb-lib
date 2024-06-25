@@ -16,48 +16,29 @@ import { Loader2Icon } from "lucide-react";
 import { allowance as thirdwebAllowance, balanceOf } from "thirdweb/extensions/erc20";
 import getContract from "@/lib/get-contract";
 
-// const fetchAllowance = async (tokenIn: Token, recipient: Address) => {
-//     return thirdwebAllowance({ contract: getContract({ address: tokenIn.address }), owner: recipient, spender: ROUTER });
-// }
-
 const fetchBalance = async (tokenIn: Token, recipient: Address) => {
     return balanceOf({ contract: getContract({ address: tokenIn.address }), address: recipient });
 }
 
 
-function TransferButton({ tokenIn, amount, accountOrigin, recipient }: { tokenIn: Token, amount: bigint,  accountOrigin: Address, recipient: Address }) {    
-    const [balance, setBalance] = useState(BigInt(0));
-    
-    // const refetchBalance = useCallback(() => fetchBalance(tokenIn, accountOrigin).then(setBalance), [tokenIn, accountOrigin]);
-    // useEffect(() => {        
-    //     refetchBalance()
-    // }, [tokenIn, accountOrigin]);
-
-    if (balance < amount) {
-        return <div className="flex flex-col text-center">
-            <div className="font-semibold text-red-500">Tokens {tokenIn.symbol} insuficientes !</div>
-            {/* <div className="text-sm text-gray-400">Your balance: {toTokens(balance, tokenIn.decimals)}</div> */}
-        </div>
-    }
+function TransferButton({ tokenIn, amount, recipient }: { tokenIn: Token, amount: bigint,  recipient: Address }) {
 
     return (    
-        <span>asdasdadas</span> 
+        <span>Se muestra boton para transferir</span> 
         // <TransactionButton
         // transaction={async () => {
-        //     return swap({
+        //     return transferp({
         //         inputToken: tokenIn,
-        //         inputAmount: amount,
-        //         outputToken: tokenOut,
-        //         recipient: recipient,
-        //         fee
+        //         inputAmount: amount,        
+        //         recipient: recipient,        
         //     });
         // }}
-        // onSent="Swap submitted..."
-        //     onConfirmed="Successfully swapped."
-        //     onError="Failed to complete swap."
+        // onSent="Transferencia en proceso ..."
+        //     onConfirmed="Transferecia exitosa"
+        //     onError="No se pudo efectuar la transferencia"
         //     successCallback={refetchBalance}
         // >
-        //     Swap
+        //     Transferir
         // </TransactionButton>
     )
 }
@@ -65,7 +46,7 @@ function TransferButton({ tokenIn, amount, accountOrigin, recipient }: { tokenIn
 export default function TransferTokens() {
     const account = useActiveAccount();
     const [amount, setAmount] = useState<number>(0);
-    const [destAddress, setDestAddress] = useState<string>('');
+    const [destAddress, setDestAddress] = useState<Address | string>("");
 
     const [inputTokenKey, setInputTokenKey] = useState<string | undefined>();
     const [outputTokenKey, setOutputTokenKey] = useState<string | undefined>();
@@ -98,11 +79,11 @@ export default function TransferTokens() {
                 </div>
                 <div className="flex w-full items-center gap-2" style={{fontSize: '14px', fontWeight:'500', paddingLeft:'15px'}}>
                     TOKENS A TRANSFERIR
-                    <Input 
+                    <Input
                         placeholder="0" 
                         type="number" 
                         onChange={(e) => setAmount(parseFloat(e.target.value || "0"))}
-                        className="w-full" 
+                        className="w-full"
                     />
                 </div>
                 <div className="flex w-full items-center gap-2" style={{fontSize: '14px', fontWeight:'500', paddingLeft:'15px'}}>
@@ -117,13 +98,16 @@ export default function TransferTokens() {
                 </div>
 
                 {canTransfer ?
-                    <TransferButton
-                        accountOrigin={account.address as Address}
-                        recipient={destAddress as Address}
-                        tokenIn={inputToken}
-                        amount={toUnits(amount.toString(), inputToken?.decimals ?? 18)}                         
-                    />
-                : <>Not can transfer</>
+                    balance > toUnits(amount.toString(), inputToken?.decimals ?? 18) ?                    
+                        <TransferButton
+                            tokenIn={inputToken}
+                            amount={toUnits(amount.toString(), inputToken?.decimals ?? 18)}
+                            recipient={destAddress as Address}
+                        />
+                        :<div className="font-semibold text-red-500">
+                            Tokens {inputToken.symbol} insuficientes !
+                        </div>
+                : <></>
                 }         
 
             </div>
