@@ -11,17 +11,17 @@ import Token from "@/types/token";
 import { balanceOf } from "thirdweb/extensions/erc20";
 import getContract from "@/lib/get-contract";
 import transfer from "@/transactions/transfer";
+import JSConfetti from 'js-confetti'
 
 const fetchBalance = async (tokenIn: Token, recipient: Address) => {
     return balanceOf({ contract: getContract({ address: tokenIn.address }), address: recipient });
 }
 
-function TransferButton({ tokenIn, amount, recipient }: { tokenIn: Token, amount: bigint,  recipient: Address }) {
+const TransferButton = ({ tokenIn, amount, recipient, onSuccess }: { tokenIn: Token, amount: bigint,  recipient: Address, onSuccess: any }) => {
     
     return (
       <TransactionButton
-        transaction={async () => {
-          // Create a transaction object and return it
+        transaction={async () => {          
           return transfer({
             token: tokenIn,
             amount,
@@ -31,14 +31,14 @@ function TransferButton({ tokenIn, amount, recipient }: { tokenIn: Token, amount
         onSent="Transferencia enviada ..."
         onConfirmed="Transferencia exitosa"
         onError="No se pudo transferir"
-        successCallback={() => console.log('Transferencia exitosa')}
+        successCallback={onSuccess}
       >
         Ejecutar Transferencia
       </TransactionButton>
     )
 }
 
-export default function TransferTokens() {
+const TransferTokens = () => {
     const account = useActiveAccount();
     const [amount, setAmount] = useState<number>(0);
     const [destAddress, setDestAddress] = useState<Address | string>("");
@@ -65,6 +65,8 @@ export default function TransferTokens() {
         return /^0x[a-fA-F0-9]{40}$/.test(address);
     };
 
+    const jsConfetti = new JSConfetti()
+
     const handleAddressChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const address = e.target.value || "";
         
@@ -76,6 +78,13 @@ export default function TransferTokens() {
         if (canGetBalance) refetchBalance()
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [inputToken, account?.address]);
+
+    const handleSuccesfulTransfer = () => {
+        refetchBalance()
+        setAmount(0)
+        setDestAddress('')
+        jsConfetti.addConfetti()
+    }
 
     return <Card className="">
         <CardHeader>
@@ -94,7 +103,8 @@ export default function TransferTokens() {
                     TOKENS A TRANSFERIR
                     <Input
                         placeholder="0" 
-                        type="number" 
+                        type="number"
+                        value={amount}
                         onChange={(e) => setAmount(parseFloat(e.target.value || "0"))}
                         className="w-full"
                     />
@@ -111,13 +121,14 @@ export default function TransferTokens() {
 
                 </div>
 
-                {canTransfer ?
+                {canTransfer ?                    
                     balance > toUnits(amount.toString(), inputToken?.decimals ?? 18) ?
                         isValidAddress ?
                             <TransferButton
                                 tokenIn={inputToken}
                                 amount={toUnits(amount.toString(), inputToken?.decimals ?? 18)}
                                 recipient={destAddress as Address}
+                                onSuccess={handleSuccesfulTransfer}
                             />
                             :<div className="font-semibold text-red-500">
                                 Address invalida !
@@ -126,9 +137,10 @@ export default function TransferTokens() {
                             Tokens {inputToken.symbol} insuficientes !
                         </div>
                 : <></>
-                }         
+                }
 
             </div>
         </CardContent>
     </Card>
 }
+export default TransferTokens;
