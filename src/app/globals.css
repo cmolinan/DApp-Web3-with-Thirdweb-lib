@@ -87,3 +87,39 @@ input::-webkit-inner-spin-button {
 input[type=number] {
   -moz-appearance: textfield;
 }
+
+.home-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 10px;
+  width: 100%;
+  margin-top: 10%;  
+}
+
+.home-block {
+  border: 1px black solid;
+  width: 40%;
+  height: 10vh;
+  min-height: 130px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 10px;
+  margin: 20px auto;
+  background-color: white;
+  justify-self: center;
+  text-align: center;
+  padding-top: 20px;
+  font-weight: 700;
+  font-size: 26px;
+  cursor: pointer;
+  color:#0A0FA7;
+}
+
+.home-subtitle {
+  color:#0A0FA7;
+  padding: 10px 2% 0;
+  font-size: 18px;
+  font-weight: lighter;
+}

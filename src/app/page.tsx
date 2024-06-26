@@ -5,54 +5,70 @@ import TransferTokens from "@/components/TransferTokens";
 import Image from "next/image"
 import { Button } from "antd"
 import { ArrowLeftOutlined, CaretRightFilled } from '@ant-design/icons';
+import { useActiveAccount } from "thirdweb/react";
+import toast from "react-hot-toast";
 
 export default function Home() {
+  const account = useActiveAccount();
   const [optionMenu, setOptionMenu] = useState(0)
 
-  const changeMenu = (option) => {
-    setOptionMenu(option)
-    console.log("OPT:",option)
+  const changeMenu = (option: number) => {
+    setOptionMenu(option)    
   }
+  // if (!account) toast.loading("Billetera desconectada", { duration: Infinity, id: "no-path" });
 
-  return (
-    <main className="flex flex-grow flex-col items-center justify-center pt-0 p-24">
-
-      { optionMenu == 0 && 
+  return (    
+    <main className="flex flex-col items-center justify-center pt-18">      
+      { optionMenu == 0 ?
         <>
-          <Button type="primary" size="small" icon={<CaretRightFilled />} onClick={() => changeMenu(1)}> 
-            Transferir Tokens
-          </Button>
+          <div className='home-main'>
 
-          <Button type="primary" size="small" icon={<CaretRightFilled />} onClick={() => changeMenu(2)}> 
-            Swap de Tokens                
-          </Button>
+            <div className='home-block' onClick={() => changeMenu(1)}>
+              <p> TRANSFERIR</p>
+              <p className='home-subtitle'>TOKENS</p>
+            </div>
+
+            <div className='home-block' onClick={() => changeMenu(2)}>
+              <p>SWAP</p>
+              <p className='home-subtitle'>DE TOKENS</p>
+            </div>      
+
+          </div>
         </>
-      }
-      { optionMenu == 1 &&
-        <>
-          <TransferTokens />
-          <Button type="text" size="large" icon={<ArrowLeftOutlined />} onClick={() => changeMenu(0)}> 
-            Menu Principal
-          </Button>
-        </>
+        :
+        <div className="home-main">
+          { optionMenu == 1 ?
+            <div >
+              <Button type="text" size="small" icon={<ArrowLeftOutlined />} onClick={() => changeMenu(0)}> 
+                Volver
+              </Button>
+              <TransferTokens />
+            </div >
+            :null
+          }
+
+          { optionMenu == 2 ? 
+            <div >
+              <Button type="text" size="small" icon={<ArrowLeftOutlined />} onClick={() => changeMenu(0)}> 
+                Volver
+              </Button>
+              <Swapper />
+            </div >
+            :null
+          }
+        </div>
       }
 
-      { optionMenu == 2 &&
-        <>
-          <Swapper />
-          <Button type="text" size="large" icon={<ArrowLeftOutlined />} onClick={() => changeMenu(0)}> 
-            Menu Principal
-          </Button>
-        </>
-      }
-      
-      {/* <Image
-          src="/thirdweb.png"
-          alt="imagen thirdweb"
-          width={100}
-          height={76}
-      /> */}
-
+      <div className="flex items-center justify-center">
+        <p>Powered by Thirdweb</p>
+        <Image
+            src="/thirdweb.png"
+            alt="imagen thirdweb"
+            width={50}
+            height={38}
+        />
+      </div>
+ 
     </main>
   );
 }

@@ -40,7 +40,7 @@ const TransferButton = ({ tokenIn, amount, recipient, onSuccess }: { tokenIn: To
 
 const TransferTokens = () => {
     const account = useActiveAccount();
-    const [amount, setAmount] = useState<number>(0);
+    const [amount, setAmount] = useState<BigInt>(0);
     const [destAddress, setDestAddress] = useState<Address | string>("");
 
     const [inputTokenKey, setInputTokenKey] = useState<string | undefined>();
@@ -88,7 +88,7 @@ const TransferTokens = () => {
 
     return <Card className="">
         <CardHeader>
-            <CardTitle>Transferir Tokens</CardTitle>
+            <CardTitle style={{color:"#0A0FA7"}}>Transferir</CardTitle>
         </CardHeader>
         <CardContent className="">
             <div className="flex w-[400px] flex-col items-center gap-4">
@@ -100,7 +100,7 @@ const TransferTokens = () => {
 
                 </div>
                 <div className="flex w-full items-center gap-2" style={{fontSize: '14px', fontWeight:'500', paddingLeft:'15px'}}>
-                    TOKENS A TRANSFERIR
+                    Tokens a Transferir
                     <Input
                         placeholder="0" 
                         type="number"
@@ -110,7 +110,7 @@ const TransferTokens = () => {
                     />
                 </div>
                 <div className="flex w-full items-center gap-2 text-sm font-medium pl-4">
-                    DESTINATARIO
+                    Destinatario
                     <Input
                         placeholder="0x" 
                         type="text" 

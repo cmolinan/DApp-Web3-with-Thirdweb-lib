@@ -9,7 +9,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Andino Megacamp Project",
-  description: "A UniSwap frontend powered by Thirdweb",
+  description: "A frontend DApp featuring utilities for transferring and swapping tokens, powered by Thirdweb.",
 };
 
 export default function RootLayout({
@@ -22,8 +22,8 @@ export default function RootLayout({
       <Thirdweb>
         <body className={`${inter.className} min-h-screen bg-gray-50 flex flex-col`}>
           <Toaster />
-          <Header />
-          {children}
+          <Header />          
+              {children}
         </body>
       </Thirdweb>
     </html>
