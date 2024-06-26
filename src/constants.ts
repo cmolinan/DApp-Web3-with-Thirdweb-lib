@@ -19,7 +19,13 @@ export const tokens: { [id: string]: Token } = {
     symbol: "USDT",
     decimals: 6,
     image: "https://assets.coingecko.com/coins/images/325/standard/Tether.png?1696501661"
-  }
+  },
+  "matic": {
+    address: "0x0000000000000000000000000000000000001010",
+    symbol: "MATIC",
+    decimals: 18,
+    image: "https://assets.coingecko.com/coins/images/4713/standard/polygon.png?1698233745"
+  },  
 }
 
 export const ROUTER = "0xE592427A0AEce92De3Edee1F18E0157C05861564";
