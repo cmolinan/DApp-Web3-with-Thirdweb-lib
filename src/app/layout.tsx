@@ -21,7 +21,9 @@ export default function RootLayout({
     <html lang="en">
       <Thirdweb>
         <body className={`${inter.className} min-h-screen bg-gray-50 flex flex-col`}>
-          <Toaster />
+          <Toaster
+            containerStyle={{marginTop:'190px'}}
+           />
           <Header />          
               {children}
         </body>

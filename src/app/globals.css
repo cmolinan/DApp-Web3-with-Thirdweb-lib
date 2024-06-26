@@ -99,7 +99,7 @@ input[type=number] {
 
 .home-block {
   border: 1px black solid;
-  width: 40%;
+  width: 35%;
   height: 10vh;
   min-height: 130px;
   display: flex;
@@ -122,4 +122,14 @@ input[type=number] {
   padding: 10px 2% 0;
   font-size: 18px;
   font-weight: lighter;
+}
+
+.warning-message {
+  position: fixed;
+  top: 150px; /* Change as per your requirement */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999; /* Ensure it's on top of other elements */
+  color: red;
+  font-weight:bold;
 }

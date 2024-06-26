@@ -15,6 +15,7 @@ import { cn } from "@/lib/utils";
 import { Loader2Icon } from "lucide-react";
 import { allowance as thirdwebAllowance, balanceOf } from "thirdweb/extensions/erc20";
 import getContract from "@/lib/get-contract";
+import JSConfetti from 'js-confetti'
 
 const fetchAllowance = async (tokenIn: Token, recipient: Address) => {
     return thirdwebAllowance({ contract: getContract({ address: tokenIn.address }), owner: recipient, spender: ROUTER });
@@ -25,7 +26,7 @@ const fetchBalance = async (tokenIn: Token, recipient: Address) => {
 }
 
 
-function SwapButton({ tokenIn, tokenOut, amount, fee, recipient }: { tokenIn: Token, tokenOut: Token, amount: bigint, fee: number, recipient: Address }) {
+function SwapButton({ tokenIn, tokenOut, amount, fee, recipient, onSuccess }: { tokenIn: Token, tokenOut: Token, amount: bigint, fee: number, recipient: Address, onSuccess: any }) {
     const [allowance, setAllowance] = useState(BigInt(0));
     const [balance, setBalance] = useState(BigInt(0));
 
@@ -39,8 +40,8 @@ function SwapButton({ tokenIn, tokenOut, amount, fee, recipient }: { tokenIn: To
 
     if (balance < amount) {
         return <div className="flex flex-col text-center">
-            <div className="font-semibold text-red-500">Not enough {tokenIn.symbol}!</div>
-            <div className="text-sm text-gray-400">Your balance: {toTokens(balance, tokenIn.decimals)}</div>
+            <div className="font-semibold text-red-500">No hay suficientes {tokenIn.symbol}!</div>
+            <div className="text-sm text-gray-400">Saldo: {toTokens(balance, tokenIn.decimals)}</div>
         </div>
     }
 
@@ -54,14 +55,19 @@ function SwapButton({ tokenIn, tokenOut, amount, fee, recipient }: { tokenIn: To
                         spender: ROUTER
                     })
                 }}
-                onSent="Approve your tokens for use..."
-                onConfirmed="Tokens successfully approved for use."
-                onError="Failed to approve tokens!"
+                onSent="Enviando la aprobacion de sus tokens ..."
+                onConfirmed="Tokens aprobados exitosamente para su uso."
+                onError="No se pudieron aprobar los tokens!"
                 successCallback={refetchAllowance}
             >
-                Approve
+                Aprobar
             </TransactionButton>
         )
+    }
+
+    const handleSuccesfulSwap = () => {
+      refetchBalance()      
+      onSuccess()
     }
 
     return (
@@ -75,12 +81,12 @@ function SwapButton({ tokenIn, tokenOut, amount, fee, recipient }: { tokenIn: To
                     fee
                 });
             }}
-            onSent="Swap submitted..."
-            onConfirmed="Successfully swapped."
-            onError="Failed to complete swap."
-            successCallback={refetchBalance}
+            onSent="Swap enviado..."
+            onConfirmed="El Swap fue exitoso!."
+            onError="Error al completar el Swap."
+            successCallback={handleSuccesfulSwap}
         >
-            Swap
+            Ejecutar Swap
         </TransactionButton>
     )
 }
@@ -97,6 +103,13 @@ export default function Swapper() {
 
     const canSwap = !quoteLoading && account && inputToken && outputToken && amount && fee;
 
+    const jsConfetti = new JSConfetti()
+
+    const handleSuccessSwapLocal = () => {
+      setAmount(0)      
+      jsConfetti.addConfetti()      
+    }
+
     return <Card className="">
         <CardHeader>
             <CardTitle style={{color:"#0A0FA7"}}>Swap</CardTitle>
@@ -105,7 +118,7 @@ export default function Swapper() {
             <div className="flex w-[400px] flex-col items-center gap-4">
                 <div className="flex w-full items-center gap-2">
                   <TokenSelect selectedKey={inputTokenKey} onSelect={setInputTokenKey} />
-                  <Input placeholder="0" type="number" onChange={(e) => setAmount(parseFloat(e.target.value || "0"))} className="w-full" />                    
+                  <Input value={amount} placeholder="0" type="number" onChange={(e) => setAmount(parseFloat(e.target.value || "0"))} className="w-full" />                    
                 </div>
                 <div className={cn("flex items-center w-full gap-2", quoteLoading && "animate-pulse")}>
                   <TokenSelect selectedKey={outputTokenKey} onSelect={setOutputTokenKey} />
@@ -117,7 +130,16 @@ export default function Swapper() {
                 </div>
             </div>
             <div className="mt-4 w-full">
-                {canSwap ? <SwapButton fee={fee} recipient={account.address as Address} tokenIn={inputToken} tokenOut={outputToken} amount={toUnits(amount.toString(), inputToken?.decimals ?? 18)} /> : <></>}
+                {canSwap ? 
+                  <SwapButton 
+                    fee={fee}
+                    recipient={account.address as Address}
+                    tokenIn={inputToken}
+                    tokenOut={outputToken}
+                    amount={toUnits(amount.toString(), inputToken?.decimals ?? 18)}
+                    onSuccess={handleSuccessSwapLocal}
+                  />
+                : <></>}
             </div>
         </CardContent>
     </Card>

@@ -15,10 +15,10 @@ export default function Home() {
   const changeMenu = (option: number) => {
     setOptionMenu(option)    
   }
-  // if (!account) toast.loading("Billetera desconectada", { duration: Infinity, id: "no-path" });
-
+  
   return (    
     <main className="flex flex-col items-center justify-center pt-18">      
+    {!account ? <span className="warning-message">Billetera desconectada !</span>:null }
       { optionMenu == 0 ?
         <>
           <div className='home-main'>

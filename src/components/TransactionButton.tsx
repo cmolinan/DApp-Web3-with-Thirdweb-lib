@@ -22,20 +22,24 @@ export default function TransactionButton(props: TransactionButtonProps) {
             onTransactionSent={(result) =>
                 toast.loading(props.onSent, {
                     duration: Infinity,
-                    id: props.id ?? "tx"
-                })
+                    id: props.id ?? "tx",
+                    className: 'custom-toast-container'
+                }
+            )
             }
             onTransactionConfirmed={(receipt) => {
                 toast.success(props.onConfirmed, {
                     duration: 5000,
-                    id: props.id ?? "tx"
+                    id: props.id ?? "tx",
+                    className: 'custom-toast-container'
                 })
                 props.successCallback && props.successCallback();
             }}
             onError={(error) =>
                 toast.error(props.onError, {
                     duration: 5000,
-                    id: props.id ?? "tx"
+                    id: props.id ?? "tx",
+                    className: 'custom-toast-container'
                 })
             }
         >

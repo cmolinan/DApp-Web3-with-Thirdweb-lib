@@ -29,8 +29,8 @@ const TransferButton = ({ tokenIn, amount, recipient, onSuccess }: { tokenIn: To
           });
         }}
         onSent="Transferencia enviada ..."
-        onConfirmed="Transferencia exitosa"
-        onError="No se pudo transferir"
+        onConfirmed="Transferencia exitosa !"
+        onError="No se pudo realizar la transferencia"
         successCallback={onSuccess}
       >
         Ejecutar Transferencia
