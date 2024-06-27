@@ -20,7 +20,7 @@ export default function Home() {
   return (    
     <main className="flex flex-col items-center justify-center pt-18">      
       {!account ? <span className="warning-message">Billetera desconectada !</span>:null }
-      {activeChain.id !== 137 ? <span className="warning-message">Wallet conectada a otra red: cambie a Polygon Mainnet!</span>:null }
+      {account && activeChain?.id !== 137 ? <span className="warning-message">Wallet conectada a otra red: cambie a Polygon Mainnet!</span>:null }
     
       { optionMenu == 0 ?
         <>
