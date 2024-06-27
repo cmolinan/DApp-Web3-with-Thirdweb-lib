@@ -18,15 +18,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en">      
       <Thirdweb>
         <body className={`${inter.className} min-h-screen bg-gray-50 flex flex-col`}>
           <Toaster
-            containerStyle={{marginTop:'190px'}}
+            containerStyle={{marginTop:'170px'}}
            />
           <Header />          
               {children}
-        </body>
+        </body>      
       </Thirdweb>
     </html>
   );
