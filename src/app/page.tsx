@@ -46,10 +46,10 @@ export default function Home() {
         });
 
       }
-    } catch (error) {
+    } catch (error: any) {
       Swal.fire({
         title: `Error interno`,
-        text: `Reintente. Si persiste, informe a Sistemas (err: ${error.code && error.message})`,
+        text: `Reintente. Si persiste, informe a Sistemas (err: ${error?.code && error?.message})`,
         icon: 'error',
         confirmButtonColor: "#C9302C",
       });

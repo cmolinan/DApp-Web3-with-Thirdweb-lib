@@ -6,17 +6,15 @@ import { Button, Input } from 'antd';
 
 import './LoginModal.css';
 
-const LoginModal = ({ onLogin, isAuth }) => {
+const LoginModal = ({ onLogin }) => {
   const [user, setUser] = useState('');
   const [password, setPassword] = useState('');
-  const [loading1, setLoading1] = useState(false);
 
   const handleClickToLogin = () => {
     // Validar que se ingresen el usuario y la contraseña
     if (user.trim() === '' || password.trim() === '') {
       return;
-    }
-    isAuth ? setLoading1(false):setLoading1(true)
+    }    
     onLogin(user, password);    
   };
 
