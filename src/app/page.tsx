@@ -11,9 +11,9 @@ import { Toaster } from "react-hot-toast";
 
 // Authentication
 import LoginModal from '../components/LoginModal'; 
-import { saveTokenAndUser, getToken } from '../utils/AuthService';
+import { clearTokenAndUser, saveTokenAndUser, getToken } from '../utils/AuthService';
 import { api_login } from '../api/backendApiConnection';
-import Swal from 'sweetalert2'
+import Swal from "sweetalert2"
 
 export default function Home() {
   const account = useActiveAccount();
@@ -58,6 +58,11 @@ export default function Home() {
       return
     }
   };
+
+  const handleLogout = () => {
+    clearTokenAndUser(); 
+    setIsAuthenticated(false)
+  }
 
   const renderMainCode = () => {
     return ( 
@@ -123,7 +128,7 @@ export default function Home() {
         <Toaster
           containerStyle={{marginTop:'170px'}}
          />
-        <Header />
+        <Header logout={handleLogout} /> 
          {renderMainCode()}
         </>
       ) :

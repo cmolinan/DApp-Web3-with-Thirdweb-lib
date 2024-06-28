@@ -3,8 +3,16 @@ import React from "react";
 import ConnectButton from "./ConnectButton";
 import Image from "next/image";
 import { useActiveAccount } from "thirdweb/react";
-export default function Header() {
-  const account = useActiveAccount();  
+import { getUser } from '../utils/AuthService';
+import { Button, Popconfirm } from 'antd';
+import { UserOutlined } from '@ant-design/icons';
+
+export default function Header({ logout }) {
+  const account = useActiveAccount();
+
+  const handleLogout = () => {
+    logout()
+  }
 
   return (
     <>
@@ -13,6 +21,15 @@ export default function Header() {
             <Image src="/andino_dao_logo.jfif" alt="" width={300} height={300} className="w-10 h-10" />
             <h1 className="text-2xl font-bold">Megacamp Project</h1>
         </div>
+
+        <div className="al flex items-center">
+          <Popconfirm title="¿ Cerrar sesion ?" onConfirm={() => handleLogout()} >
+            <Button type="text" size = "large" className="font-bold" style={{fontSize: '18px', color: '#0A0FA7'}} icon={<UserOutlined />}>
+              {getUser().name}
+            </Button>
+          </Popconfirm>
+        </div>
+
         <div className="flex gap-2 items-stretch">
             <ConnectButton />
         </div>
