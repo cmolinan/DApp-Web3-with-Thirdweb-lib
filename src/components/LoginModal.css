@@ -1,0 +1,78 @@
+/* Estilos base para todas las pantallas */
+.login-modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #e2e2e2;
+  color: black;
+  /* background-image: url('../assets/images/docs04.jpg'); */
+}
+
+.login-form {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0 0 0 / 10%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid;
+}
+
+.login-form h2 {
+  text-align: center;
+}
+
+.login-form label {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.login-form input {
+  width: 90%;
+  padding: 5px;
+  margin-bottom: 16px;
+}
+
+.login-form button {
+  width: 95%;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.login-form button:hover {
+  background-color: #0056b3;
+}
+
+@media only screen and (width <= 480px) {
+  .login-form {
+    width: 60%;
+    font-size: 12px;
+  }
+}
+
+@media only screen and (width >= 481px) and (width <= 767px) {
+  .login-form {
+    width: 40%;
+    font-size: 14px;
+  }
+}
+
+/* Media queries para tamaños específicos de pantalla */
+@media only screen and (width >= 768px) and (width <= 1023px) {
+  .login-form {
+    width: 35%;
+  }
+}
+
+@media only screen and (width >= 1024px) {
+  .login-form {
+    width: 22%;
+  }
+}
