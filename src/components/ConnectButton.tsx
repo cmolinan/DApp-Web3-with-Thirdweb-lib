@@ -40,7 +40,7 @@ export default function ConnectButton() {
         title: "Seleccione una billetera:",
         size: "compact",
       }}
-      appMetadata={appMetadata}
+      // appMetadata={appMetadata}
     />
   )
 }
