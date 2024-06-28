@@ -23,5 +23,28 @@ module.exports = {
         message: "Internal error. "+ (err?.sqlMessage || err?.message || '') 
       })
     }
+  },
+
+  getAllUsers: async (req, res) => {
+    try {
+      const results = await userModel.getAllUsers()
+      if (!results.length) {
+        return res.json({
+          success: 0,
+          message: "Record not Found"
+        });
+      }
+        
+      return res.json({
+        success: 1,
+        data: results
+      });
+
+    } catch (err) {
+      return res.status(500).json({
+        success: 0,        
+        message: "Internal error. "+ (err.sqlMessage || err.message || '')
+      });
+    }
   }
 }

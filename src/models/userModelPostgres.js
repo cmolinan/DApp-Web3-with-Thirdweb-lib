@@ -57,5 +57,21 @@ module.exports = {
         }
       )
     })
-  }
+  },
+
+  getAllUsers: () => {
+    return new Promise((resolve, reject) => {
+      connection.query('SELECT id, name, email, username, phone FROM users',
+        (error, results) => {
+          if (error) {
+            return reject(error);
+          } else {
+            results = results.rows
+            return  resolve(results);
+          }
+        }
+      )
+    })
+  },
+
 }
