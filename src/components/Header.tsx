@@ -7,7 +7,11 @@ import { getUser } from '../utils/AuthService';
 import { Button, Popconfirm } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 
-export default function Header({ logout }) {
+interface HeaderProps {
+  logout: () => void;
+}
+
+const Header: React.FC<HeaderProps> = ({ logout }) => {
   const account = useActiveAccount();
 
   const handleLogout = () => {
@@ -51,3 +55,4 @@ export default function Header({ logout }) {
     </>  
   )
 }
+export default Header;
