@@ -66,7 +66,7 @@ export default function Home() {
 
   const renderMainCode = () => {
     return ( 
-      <main className="flex flex-col items-center justify-center pt-18">      
+      <main className="flex flex-col items-center justify-center">
         {!account ? <span className="warning-message">Billetera desconectada !</span>:null }
         {account && activeChain?.id !== 137 ? <span className="warning-message">Wallet conectada a otra red: cambie a Polygon Mainnet!</span>:null }
       
