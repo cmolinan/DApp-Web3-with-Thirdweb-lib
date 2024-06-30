@@ -10,8 +10,7 @@ const MEDIA_BREAKPOINT_FOR_MOBILE = 480;   // ex 575
 // export const setObject = (objet) => {
 //   localStorage.setItem('carlos', JSON.stringify(objet));
 // };
-
-export const getObject = () => JSON.parse(localStorage.getItem('carlos'))
+// export const getObject = () => JSON.parse(localStorage.getItem('carlos'))
 
 export const isMobile = () => window.innerWidth > MEDIA_BREAKPOINT_FOR_MOBILE ? false:  true
 
