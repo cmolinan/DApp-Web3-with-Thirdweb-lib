@@ -6,7 +6,7 @@ import client from "@/lib/thirdweb-client";
 import { polygon } from "thirdweb/chains";
 
 
-export default function ConnectButton() {
+const ConnectButton = () => {
 
   const wallets = [
     createWallet("io.metamask"),
@@ -16,7 +16,8 @@ export default function ConnectButton() {
 
   const appMetadata = {
     name: "DApp Megacamp Andino",
-    description: "DApp para Megacamp Andino"    
+    description: "DApp para Megacamp Andino",
+    url: ''
   };
   
   return (
@@ -28,7 +29,12 @@ export default function ConnectButton() {
           color: "white",
           borderRadius: "10px",
         },
-
+      }}
+      switchButton={{
+        label: "Red erronea",        
+        style: {
+          backgroundColor: "red",
+        },
       }}
       theme="light" 
       chain={polygon}
@@ -40,7 +46,9 @@ export default function ConnectButton() {
         title: "Seleccione una billetera:",
         size: "compact",
       }}
-      // appMetadata={appMetadata}
+      appMetadata={appMetadata}
     />
   )
 }
+
+export default ConnectButton

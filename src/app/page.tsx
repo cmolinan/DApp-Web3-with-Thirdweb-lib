@@ -10,7 +10,7 @@ import Header from "@/components/Header";
 import { Toaster } from "react-hot-toast";
 
 // Authentication
-import LoginModal from '../components/LoginModal'; 
+import LoginModal from '../components/LoginModal';
 import { clearTokenAndUser, saveTokenAndUser, getToken } from '../utils/AuthService';
 import { api_login } from '../api/backendApiConnection';
 import Swal from "sweetalert2"
@@ -18,17 +18,17 @@ import Swal from "sweetalert2"
 export default function Home() {
   const account = useActiveAccount();
   const activeChain = useActiveWalletChain();
-   
+
   const [optionMenu, setOptionMenu] = useState(0)
 
   const changeMenu = (option: number) => {
-    setOptionMenu(option)    
+    setOptionMenu(option)
   }
 
 
   const [isAuthenticated, setIsAuthenticated] = useState(!!getToken());
 
-  const handleLogin = async (user: any, password: any) => {    
+  const handleLogin = async (user: any, password: any) => {
     try {
       const response = await api_login(user, password);
       if (response.success) {
@@ -60,16 +60,16 @@ export default function Home() {
   };
 
   const handleLogout = () => {
-    clearTokenAndUser(); 
+    clearTokenAndUser();
     setIsAuthenticated(false)
   }
 
   const renderMainCode = () => {
-    return ( 
+    return (
       <main className="flex flex-col items-center justify-center">
         {!account ? <span className="warning-message">Billetera desconectada !</span>:null }
         {account && activeChain?.id !== 137 ? <span className="warning-message">Wallet conectada a otra red: cambie a Polygon Mainnet!</span>:null }
-      
+
         { optionMenu == 0 ?
           <>
             <div className='home-main'>
@@ -81,14 +81,14 @@ export default function Home() {
               <div className='home-block' onClick={() => changeMenu(2)}>
                 <p>SWAP</p>
                 <p className='home-subtitle'>DE TOKENS</p>
-              </div>      
+              </div>
             </div>
           </>
           :
           <div className="home-main">
             { optionMenu == 1 ?
               <div >
-                <Button type="text" size="small" icon={<ArrowLeftOutlined />} onClick={() => changeMenu(0)}> 
+                <Button type="text" size="small" icon={<ArrowLeftOutlined />} onClick={() => changeMenu(0)}>
                   Volver
                 </Button>
                 <TransferTokens />
@@ -96,9 +96,9 @@ export default function Home() {
               :null
             }
 
-            { optionMenu == 2 ? 
+            { optionMenu == 2 ?
               <div >
-                <Button type="text" size="small" icon={<ArrowLeftOutlined />} onClick={() => changeMenu(0)}> 
+                <Button type="text" size="small" icon={<ArrowLeftOutlined />} onClick={() => changeMenu(0)}>
                   Volver
                 </Button>
                 <Swapper />
@@ -126,9 +126,9 @@ export default function Home() {
       {isAuthenticated ? (
         <>
         <Toaster
-          containerStyle={{marginTop:'170px'}}
+          containerStyle={{marginTop:'210px'}}
          />
-        <Header logout={handleLogout} /> 
+        <Header logout={handleLogout} />
          {renderMainCode()}
         </>
       ) :

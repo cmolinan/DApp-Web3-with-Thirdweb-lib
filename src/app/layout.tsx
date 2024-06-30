@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Thirdweb from "@/components/Thirdweb";
-import Header from "@/components/Header";
-import { Toaster } from "react-hot-toast";
+import ActivateConnectButton from "@/components/ActivateConnectButton";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,7 +20,9 @@ export default function RootLayout({
     <html lang="en">      
       <Thirdweb>
         <body className={`${inter.className} min-h-screen bg-gray-50 flex flex-col`}>
-              {children}
+          <ActivateConnectButton />
+          <span className={"no-show"}>Megacamp</span>
+          {children}
         </body>      
       </Thirdweb>
     </html>

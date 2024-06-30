@@ -15,7 +15,7 @@ const Header: React.FC<HeaderProps> = ({ logout }) => {
   const account = useActiveAccount();
 
   const handleLogout = () => {
-    logout()
+   logout()
   }
 
   return (
@@ -29,7 +29,7 @@ const Header: React.FC<HeaderProps> = ({ logout }) => {
         <div className="al flex items-center">
           <Popconfirm title="¿ Cerrar sesion ?" onConfirm={() => handleLogout()} >
             <Button type="text" size = "large" className="font-bold" style={{fontSize: '18px', color: '#0A0FA7'}} icon={<UserOutlined />}>
-              {getUser().name}
+              {getUser()?.name}
             </Button>
           </Popconfirm>
         </div>

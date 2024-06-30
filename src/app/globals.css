@@ -126,10 +126,21 @@ input[type=number] {
 
 .warning-message {
   position: fixed;
-  top: 150px; /* Change as per your requirement */
+  top: 180px; /* Change as per your requirement */
   left: 50%;
   transform: translateX(-50%);
   z-index: 9999; /* Ensure it's on top of other elements */
   color: red;
   font-weight:bold;
+}
+
+.no-show {  
+  background-color: white;
+  position: fixed;
+  top: 0px; /* Change as per your requirement */
+  left: 60px;
+  transform: translateX(-50%);
+  z-index: 9999; /* Ensure it's on top of other elements */
+  color: white;  
+  font-size: 32px;
 }

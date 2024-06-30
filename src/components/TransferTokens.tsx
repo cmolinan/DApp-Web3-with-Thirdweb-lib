@@ -40,7 +40,7 @@ const TransferButton = ({ tokenIn, amount, recipient, onSuccess }: { tokenIn: To
 
 const TransferTokens = () => {
     const account = useActiveAccount();
-    const [amount, setAmount] = useState<BigInt>(0);
+    const [amount, setAmount] = useState<number>(0);
     const [destAddress, setDestAddress] = useState<Address | string>("");
 
     const [inputTokenKey, setInputTokenKey] = useState<string | undefined>();
@@ -103,8 +103,7 @@ const TransferTokens = () => {
                     Tokens a Transferir
                     <Input
                         placeholder="0" 
-                        type="number"
-                        value={amount}
+                        type="number"                        
                         onChange={(e) => setAmount(parseFloat(e.target.value || "0"))}
                         className="w-full"
                     />
