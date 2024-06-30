@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Swapper from "@/components/Swapper";
 import TransferTokens from "@/components/TransferTokens";
 import Image from "next/image"
@@ -25,8 +25,13 @@ export default function Home() {
     setOptionMenu(option)
   }
 
+    
+  const [isAuthenticated, setIsAuthenticated] = useState(true);
+  
+  useEffect(() => {    
+    setIsAuthenticated(getToken() ? true: false);
+  }, []);
 
-  const [isAuthenticated, setIsAuthenticated] = useState(!!getToken());
 
   const handleLogin = async (user: any, password: any) => {
     try {

@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import ConnectButton from "./ConnectButton";
 import Image from "next/image";
 import { useActiveAccount } from "thirdweb/react";
@@ -14,9 +14,16 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ logout }) => {
   const account = useActiveAccount();
 
+  const [userName, setUserName] = useState('');
+
   const handleLogout = () => {
    logout()
   }
+
+  useEffect(() => {    
+    setUserName(getUser()?.name);
+  }, []);
+
 
   return (
     <>
@@ -29,7 +36,7 @@ const Header: React.FC<HeaderProps> = ({ logout }) => {
         <div className="al flex items-center">
           <Popconfirm title="¿ Cerrar sesion ?" onConfirm={() => handleLogout()} >
             <Button type="text" size = "large" className="font-bold" style={{fontSize: '18px', color: '#0A0FA7'}} icon={<UserOutlined />}>
-              {getUser()?.name}
+              {userName}
             </Button>
           </Popconfirm>
         </div>

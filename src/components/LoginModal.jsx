@@ -25,8 +25,7 @@ const LoginModal = ({ onLogin }) => {
         <label htmlFor="user">Usuario o e-mail:</label>        
         <input
           placeholder="Ingresa e-mail o usuario"
-          type='text'
-          allowClear
+          type='text'          
           id="user"
           value={user}
           size='small'
@@ -37,8 +36,7 @@ const LoginModal = ({ onLogin }) => {
         <input
           placeholder="Ingresa password"
           type="password"
-          id="password"
-          allowClear
+          id="password"          
           value={password}
           size='small'
           onChange={(e) => setPassword(e.target.value)}
