@@ -40,8 +40,8 @@ const LoginModal = ({ onLogin }) => {
           value={password}
           size='small'
           onChange={(e) => setPassword(e.target.value)}
-        />
-        <Button size='large' onClick={handleClickToLogin} style={{fontSize: '18px', fontWeight:'bold'}} >INGRESAR</Button>
+        />        
+        <Button size='large' className="button" type='primary' onClick={handleClickToLogin} >Ingresar</Button>
       </div>
     </div>
   );

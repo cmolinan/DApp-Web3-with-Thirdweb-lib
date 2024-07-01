@@ -24,12 +24,13 @@ export default function Home() {
   const changeMenu = (option: number) => {
     setOptionMenu(option)
   }
-
+  const [started, setStarted] = useState(false);
     
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   
   useEffect(() => {    
     setIsAuthenticated(getToken() ? true: false);
+    setStarted(true)
   }, []);
 
 
@@ -128,18 +129,23 @@ export default function Home() {
 
   return (
     <div>
-      {isAuthenticated ? (
+      {started?
         <>
-        <Toaster
-          containerStyle={{marginTop:'210px'}}
-         />
-        <Header logout={handleLogout} />
-         {renderMainCode()}
+        {isAuthenticated ? (
+          <>
+          <Toaster
+            containerStyle={{marginTop:'210px'}}
+          />
+          <Header logout={handleLogout} />
+          {renderMainCode()}
+          </>
+        ) :
+          <div>
+            {<LoginModal onLogin={handleLogin} />}
+          </div>
+        }
         </>
-      ) :
-        <div>
-          {<LoginModal onLogin={handleLogin} />}
-        </div>
+      : <span>Loading </span>
       }
     </div>
   );

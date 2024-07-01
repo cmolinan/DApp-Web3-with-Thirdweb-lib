@@ -19,7 +19,7 @@ export default function RootLayout({
   return (
     <html lang="en">      
       <Thirdweb>
-        <body className={`${inter.className} min-h-screen bg-gray-50 flex flex-col`}>
+        <body className={`${inter.className} min-h-screen bg-blue-50 flex flex-col`}>
           <ActivateConnectButton />          
           {children}
         </body>      

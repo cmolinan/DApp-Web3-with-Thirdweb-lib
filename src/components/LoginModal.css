@@ -4,20 +4,19 @@
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-color: #e2e2e2;
-  color: black;
+  background-color: black;
+  color: #0A0FA7;
   /* background-image: url('../assets/images/docs04.jpg'); */
 }
 
 .login-form {
-  background-color: white;
+  background-color: #EFF6FF;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0 0 0 / 10%);
   display: flex;
   flex-direction: column;
   align-items: center;
-  border: 1px solid;
 }
 
 .login-form h2 {
@@ -37,20 +36,24 @@
   width: 90%;
   padding: 5px;
   margin-bottom: 16px;
+  color:#0A0FA7;
+  border: 1px solid #0A0FA7;
 }
 
-.login-form button {
+.button {
   width: 95%;
-  padding: 10px;
-  color: black;
-  border: none;
+  padding: 10px;  
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  color: white;
+  font-size: 20px;
+  font-weight:'bold';
+  background: 'red';
 }
 
 .login-form button:hover {
-  background-color: #0056b3;
+  background-color: #393a73;
 }
 
 @media only screen and (width <= 480px) {
