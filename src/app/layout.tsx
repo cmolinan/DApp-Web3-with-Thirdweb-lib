@@ -20,8 +20,7 @@ export default function RootLayout({
     <html lang="en">      
       <Thirdweb>
         <body className={`${inter.className} min-h-screen bg-gray-50 flex flex-col`}>
-          <ActivateConnectButton />
-          <span className={"no-show"}>Megacamp</span>
+          <ActivateConnectButton />          
           {children}
         </body>      
       </Thirdweb>

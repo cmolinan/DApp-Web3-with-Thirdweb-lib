@@ -7,7 +7,7 @@ const ActivateConnectButton: React.FC = () => {
   const account = useActiveAccount();
 
   return (    
-    <div>
+    <div className="no-show">
       <ConnectButton />
     </div>    
   )

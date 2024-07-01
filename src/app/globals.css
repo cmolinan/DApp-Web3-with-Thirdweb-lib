@@ -134,13 +134,10 @@ input[type=number] {
   font-weight:bold;
 }
 
-.no-show {  
-  background-color: white;
+.no-show {
   position: fixed;
-  top: 0px; /* Change as per your requirement */
-  left: 60px;
+  top: -100px;
+  left: -60px;
   transform: translateX(-50%);
   z-index: 9999; /* Ensure it's on top of other elements */
-  color: white;  
-  font-size: 32px;
 }
