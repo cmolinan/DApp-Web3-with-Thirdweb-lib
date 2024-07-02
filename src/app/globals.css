@@ -133,11 +133,3 @@ input[type=number] {
   color: red;
   font-weight:bold;
 }
-
-.no-show {
-  position: fixed;
-  top: -100px;
-  left: -60px;
-  transform: translateX(-50%);
-  z-index: 9999; /* Ensure it's on top of other elements */
-}

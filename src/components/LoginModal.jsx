@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from 'react';
-import PropTypes from 'prop-types';
 import { Button, Input } from 'antd';
 
 import './LoginModal.css';
@@ -45,11 +44,6 @@ const LoginModal = ({ onLogin }) => {
       </div>
     </div>
   );
-};
-
-// Define y valida las propiedades esperadas en el componente
-LoginModal.propTypes = {
-  onLogin: PropTypes.func.isRequired,
 };
 
 export default LoginModal;

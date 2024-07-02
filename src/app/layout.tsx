@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Thirdweb from "@/components/Thirdweb";
-import ActivateConnectButton from "@/components/ActivateConnectButton";
+import { ThirdwebProvider } from "thirdweb/react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,13 +16,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">      
-      <Thirdweb>
+    <html lang="en">
+      <ThirdwebProvider>
         <body className={`${inter.className} min-h-screen bg-blue-50 flex flex-col`}>
-          <ActivateConnectButton />          
           {children}
         </body>      
-      </Thirdweb>
+      </ThirdwebProvider>
     </html>
   );
 }
