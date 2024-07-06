@@ -65,7 +65,7 @@ module.exports = {
     let query = ''
     if (mode == 'transfers') {
       query = 'SELECT  transfers.id,  users.name as username, \
-      chains.name as chain, tokens.name as token,  from_address, to_address, amount, hash \
+      chains.name as chain, tokens.name as token,  from_address, to_address, amount, hash, timestamp as date \
       FROM  transfers \
       JOIN users ON transfers.user_id = users.id \
       JOIN chains ON transfers.chain_id = chains.id \
@@ -74,7 +74,7 @@ module.exports = {
     } else if (mode == 'swaps') {
       query = 'SELECT  swaps.id,  users.name as username, \
       chains.name as chain,  tokensF.name as from_token,  \
-      tokensT.name as to_token,  from_amount,  to_amount, hash \
+      tokensT.name as to_token,  from_amount,  to_amount, hash, timestamp as date \
       FROM  swaps \
       JOIN users ON swaps.user_id = users.id \
       JOIN chains ON swaps.chain_id = chains.id \

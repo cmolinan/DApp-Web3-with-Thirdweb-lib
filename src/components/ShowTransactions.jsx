@@ -1,4 +1,5 @@
 "use client"
+import  { format } from 'date-fns';
 import { useEffect, useState } from "react";
 import { Table } from 'antd';
 import { isMobile, getLocalDate, swalFire } from '../utils/OtherServices';
@@ -55,7 +56,7 @@ const ShowTransactions = () => {
         dataIndex: "date",
         align: "center",
         key: 'date',        
-        render: text => <div style={{ textAlign: 'left' }}>{text}</div>,
+        render: text => <div style={{ textAlign: 'left' }}>{format(text,'yy-MM-dd HH:mm')}</div>,
       },
       {
         title: <div className="table-antd-header">CHAIN</div>,
