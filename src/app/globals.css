@@ -94,7 +94,7 @@ input[type=number] {
   align-items: center;
   border-radius: 10px;
   width: 100%;
-  margin-top: 10%;  
+  margin-top: 7%;  
 }
 
 .home-block {
@@ -110,7 +110,7 @@ input[type=number] {
   background-color: white;
   justify-self: center;
   text-align: center;
-  padding-top: 20px;
+  justify-content: center;
   font-weight: 700;
   font-size: 26px;
   cursor: pointer;
@@ -126,10 +126,30 @@ input[type=number] {
 
 .warning-message {
   position: fixed;
-  top: 180px; /* Change as per your requirement */
+  top: 160px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 9999; /* Ensure it's on top of other elements */
   color: red;
   font-weight:bold;
 }
+
+.swal-fontsize-little {
+  font-size: 18px;
+}
+
+.swal-fontsize-large {
+  font-size: 26px;
+}
+
+.table-series-container {
+  width: 60vw;
+  height: auto;
+  padding: 10px;
+  overflow: auto;
+  border: 1px solid #005eb8;
+  background-color: white;
+  border-radius: 10px;
+  margin-bottom: 1%;
+}
+

@@ -8,6 +8,7 @@ import { ArrowLeftOutlined } from '@ant-design/icons';
 import { useActiveWalletChain, useActiveAccount } from "thirdweb/react";
 import Header from "@/components/Header";
 import { Toaster } from "react-hot-toast";
+import ShowTransactions from "@/components/ShowTransactions";
 
 // Authentication
 import LoginModal from '../components/LoginModal';
@@ -72,7 +73,7 @@ export default function Home() {
 
   const renderMainCode = () => {
     return (
-      <main className="flex flex-col items-center justify-center">
+      <main className="flex flex-col items-center justify-center" style={{justifyContent: 'center'}}>
         {!account ? <span className="warning-message">Billetera desconectada !</span>:null }
         {account && activeChain?.id !== 137 ? <span className="warning-message">Wallet conectada a otra red: cambie a Polygon Mainnet!</span>:null }
 
@@ -88,6 +89,11 @@ export default function Home() {
                 <p>SWAP</p>
                 <p className='home-subtitle'>DE TOKENS</p>
               </div>
+
+              <div className='home-block' style={{width: "20%", fontSize: "20px", height: '60px', minHeight: '30px'}} onClick={() => changeMenu(3)}>
+                <p>Transacciones realizadas</p>
+              </div>
+
             </div>
           </>
           :
@@ -111,6 +117,17 @@ export default function Home() {
               </div >
               :null
             }
+
+            { optionMenu == 3 ?
+              <div >
+                <Button type="text" size="small" icon={<ArrowLeftOutlined />} onClick={() => changeMenu(0)}>
+                  Volver
+                </Button>
+                <ShowTransactions />
+              </div >
+              :null
+            }
+
           </div>
         }
 

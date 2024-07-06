@@ -1,4 +1,3 @@
-// AuthService.js
 const TOKEN_KEY = 'authToken';
 const USER_KEY = 'authUser';
 
@@ -18,4 +17,4 @@ export const handleTokenExpiration = () => {
 
 export const getToken = () => localStorage?.getItem(TOKEN_KEY);
 export const getUser = () => JSON.parse(localStorage?.getItem(USER_KEY));
-export const getAPIToken = () => process.env.API_TOKEN;
+export const getAPIToken = () => process.env.NEXT_PUBLIC_API_TOKEN;
