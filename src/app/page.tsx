@@ -151,7 +151,7 @@ export default function Home() {
         {isAuthenticated ? (
           <>
           <Toaster
-            containerStyle={{marginTop:'210px'}}
+            containerStyle={{marginTop:'190px'}}
           />
           <Header logout={handleLogout} />
           {renderMainCode()}

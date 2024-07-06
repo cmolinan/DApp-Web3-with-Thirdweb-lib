@@ -1,7 +1,7 @@
 "use client"
 import  { format } from 'date-fns';
 import { useEffect, useState } from "react";
-import { Table } from 'antd';
+import { Table, Tooltip } from 'antd';
 import { isMobile, getLocalDate, swalFire } from '../utils/OtherServices';
 import { api_readTransfers } from '../api/dappApiConnection';
 import { handleTokenExpiration } from '@/utils/AuthService';
@@ -48,6 +48,14 @@ const ShowTransactions = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Function for shorten address
+  const shortenAddress = (address) => {
+    if (!address) return '';
+    const firstPart = address.slice(0, 6);
+    const lastPart = address.slice(-4);
+    return `${firstPart}...${lastPart}`;
+  };
+
   const columns = (mode) => {
     // The same function used for transfers an swaps
     const output = [
@@ -66,65 +74,89 @@ const ShowTransactions = () => {
         render: text => <div style={{ textAlign: 'left' }}>{text}</div>,
       }]
 
-      if (mode == "transfers") output.push({
-        title: <div className="table-antd-header">TOKEN</div>,
-        dataIndex: "token",
-        align: "center",
-        key: 'token',
-        render: text => <div style={{ textAlign: 'left' }}>{text}</div>,
-      },      
-      {
-        title: <div className="table-antd-header">ORIGEN</div>,
-        dataIndex: "from_address",
-        align: "center",
-        key: 'fromAddress',
-        render: text => <div style={{ textAlign: 'left' }}>{text}</div>,
-      },    
-      {
-        title: <div className="table-antd-header">DESTINO</div>,
-        dataIndex: "to_address",
-        align: "center",
-        key: 'toAddress',        
-        render: text => <div style={{ textAlign: 'left' }}>{text}</div>,
-      },
-      {
-        title: <div className="table-antd-header">IMPORTE</div>,
-        dataIndex: "amount",
-        align: "center",
-        key: 'amount',
-        render: text => <div style={{ textAlign: 'left' }}>{text}</div>,
-      })
+      if (mode == "transfers") output.push(
+        {
+          title: <div className="table-antd-header">TOKEN</div>,
+          dataIndex: "token",
+          align: "center",
+          key: 'token',
+          render: text => <div style={{ textAlign: 'left' }}>{text}</div>,
+        },
+        {
+          title: <div className="table-antd-header">ADDRESS ORIGEN</div>,
+          dataIndex: "from_address",
+          align: "center",
+          key: 'fromAddress',
+          render: text =>
+            <Tooltip title={text}>
+              <div style={{ textAlign: 'left' }}>
+                {shortenAddress(text)} 
+              </div>
+            </Tooltip>        
+        },    
+        {
+          title: <div className="table-antd-header">ADDRESS DESTINO</div>,
+          dataIndex: "to_address",
+          align: "center",
+          key: 'toAddress',        
+          render: text => 
+            <Tooltip title={text}>
+              <div style={{ textAlign: 'left' }}>
+                {shortenAddress(text)} 
+              </div>
+            </Tooltip>
+        },
+        {
+          title: <div className="table-antd-header">IMPORTE</div>,
+          dataIndex: "amount",
+          align: "center",
+          key: 'amount',
+          render: text => <div style={{ textAlign: 'left' }}>{text}</div>,
+        }
+      )
 
       if (mode == "swaps") output.push(
-      {
-        title: <div className="table-antd-header">TOKEN ORIGEN</div>,
-        dataIndex: "from_token",
-        align: "center",
-        key: 'from_token',
-        render: text => <div style={{ textAlign: 'left' }}>{text}</div>,
-      },
-      {
-        title: <div className="table-antd-header">TOKEN DESTINO</div>,
-        dataIndex: "to_token",
-        align: "center",
-        key: 'to_token',
-        render: text => <div style={{ textAlign: 'left' }}>{text}</div>,
-      }, 
-      {
-        title: <div className="table-antd-header">IMPORTE ORIGEN</div>,
-        dataIndex: "from_amount",
-        align: "center",
-        key: 'from_amount',
-        render: text => <div style={{ textAlign: 'left' }}>{text}</div>,
-      },
-      {
-        title: <div className="table-antd-header">IMPORTE DESTINO</div>,
-        dataIndex: "to_amount",
-        align: "center",
-        key: 'to_amount',
-        render: text => <div style={{ textAlign: 'left' }}>{text}</div>,
-      }
-    )
+        {
+          title: <div className="table-antd-header">ADDRESS</div>,
+          dataIndex: "address",
+          align: "center",
+          key: 'address',
+          render: text => 
+            <Tooltip title={text}>
+              <div style={{ textAlign: 'left' }}>
+                {shortenAddress(text)} 
+              </div>
+            </Tooltip>        
+        },      
+        {
+          title: <div className="table-antd-header">TOKEN ORIGEN</div>,
+          dataIndex: "from_token",
+          align: "center",
+          key: 'from_token',
+          render: text => <div style={{ textAlign: 'left' }}>{text}</div>,
+        },
+        {
+          title: <div className="table-antd-header">TOKEN DESTINO</div>,
+          dataIndex: "to_token",
+          align: "center",
+          key: 'to_token',
+          render: text => <div style={{ textAlign: 'left' }}>{text}</div>,
+        }, 
+        {
+          title: <div className="table-antd-header">IMPORTE ORIGEN</div>,
+          dataIndex: "from_amount",
+          align: "center",
+          key: 'from_amount',
+          render: text => <div style={{ textAlign: 'left' }}>{text}</div>,
+        },
+        {
+          title: <div className="table-antd-header">IMPORTE DESTINO</div>,
+          dataIndex: "to_amount",
+          align: "center",
+          key: 'to_amount',
+          render: text => <div style={{ textAlign: 'left' }}>{text}</div>,
+        }
+      )
 
     output.push(
     {
@@ -132,16 +164,22 @@ const ShowTransactions = () => {
       dataIndex: "hash",
       align: "center",
       key: 'hash',        
-      render: text => <div style={{ textAlign: 'left' }}>{text}</div>,
+      render: text => 
+        <Tooltip title={text}>
+          <div style={{ textAlign: 'left' }}>
+            {shortenAddress(text)} 
+          </div>
+        </Tooltip>
     })
 
     return output
   }
 
   return (
-    <>     
+    <>
       {transferTxns?.length > 0 ? (
-          <div className="table-series-container">
+          <div className="table-container">
+            <span style={{fontWeight: 'bold', color: '#0A0FA7', padding: '10px'}}>TRANSFERS</span>
             <Table
               columns={columns("transfers")}
               bordered
@@ -159,8 +197,9 @@ const ShowTransactions = () => {
             <span>Loading transfers..</span>
           </>
       }
-      {swapTxns?.length > 0 ? (
-          <div className="table-series-container">
+      {swapTxns?.length > 0 ? (        
+          <div className="table-container">
+            <span style={{fontWeight: 'bold', color: '#0A0FA7', padding: '10px'}}>SWAPS</span>
             <Table
               columns={columns("swaps")}
               bordered
