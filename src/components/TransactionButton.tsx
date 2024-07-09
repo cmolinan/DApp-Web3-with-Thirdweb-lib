@@ -10,7 +10,8 @@ type TransactionButtonProps = {
     onSent: string,
     onConfirmed: string,
     onError: string,
-    successCallback?: () => void,
+    successCallback?: (receipt: any) => void,
+    errorCallback?: (error: any) => void,
     children: ReactNode
 }
 
@@ -33,15 +34,16 @@ export default function TransactionButton(props: TransactionButtonProps) {
                     id: props.id ?? "tx",
                     className: 'custom-toast-container'
                 })
-                props.successCallback && props.successCallback();
+                props.successCallback && props.successCallback(receipt);
             }}
-            onError={(error) =>
+            onError={(error) => {
                 toast.error(props.onError, {
                     duration: 5000,
                     id: props.id ?? "tx",
                     className: 'custom-toast-container'
                 })
-            }
+                props.errorCallback && props.errorCallback(error);
+            }}
         >
             {props.children}
         </ThirdwebTransactionButton>

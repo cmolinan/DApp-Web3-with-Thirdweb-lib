@@ -17,8 +17,7 @@ const fetchBalance = async (tokenIn: Token, recipient: Address) => {
     return balanceOf({ contract: getContract({ address: tokenIn.address }), address: recipient });
 }
 
-const TransferButton = ({ tokenIn, amount, recipient, onSuccess }: { tokenIn: Token, amount: bigint,  recipient: Address, onSuccess: any }) => {
-    
+const TransferButton = ({ tokenIn, amount, recipient, onSuccess, onError }: { tokenIn: Token, amount: bigint,  recipient: Address, onSuccess: any, onError: any }) => {
     return (
       <TransactionButton
         transaction={async () => {          
@@ -32,6 +31,7 @@ const TransferButton = ({ tokenIn, amount, recipient, onSuccess }: { tokenIn: To
         onConfirmed="Transferencia exitosa !"
         onError="No se pudo realizar la transferencia"
         successCallback={onSuccess}
+        errorCallback={onError}
       >
         Ejecutar Transferencia
       </TransactionButton>
@@ -79,11 +79,18 @@ const TransferTokens = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [inputToken, account?.address]);
 
-    const handleSuccesfulTransfer = () => {
+    const handleSuccesfulTransfer = (receipt: any) => {
+        console.log('HASH: ',receipt?.transactionHash)
         refetchBalance()
         setAmount(0)
         setDestAddress('')
         jsConfetti.addConfetti()
+    }
+
+    const handleErrorTransfer = (error: any) => {
+        console.log('ERROR: ',error?.message)        
+        setAmount(0)
+        setDestAddress('')
     }
 
     return <Card className="">
@@ -128,6 +135,7 @@ const TransferTokens = () => {
                                 amount={toUnits(amount.toString(), inputToken?.decimals ?? 18)}
                                 recipient={destAddress as Address}
                                 onSuccess={handleSuccesfulTransfer}
+                                onError={handleErrorTransfer}
                             />
                             :<div className="font-semibold text-red-500">
                                 Address invalida !
