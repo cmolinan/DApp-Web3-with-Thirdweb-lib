@@ -26,7 +26,7 @@ const fetchBalance = async (tokenIn: Token, recipient: Address) => {
 }
 
 
-function SwapButton({ tokenIn, tokenOut, amount, fee, recipient, onSuccess }: { tokenIn: Token, tokenOut: Token, amount: bigint, fee: number, recipient: Address, onSuccess: any }) {
+function SwapButton({ tokenIn, tokenOut, amount, fee, recipient, onSuccess, onError }: { tokenIn: Token, tokenOut: Token, amount: bigint, fee: number, recipient: Address, onSuccess: any, onError: any }) {
     const [allowance, setAllowance] = useState(BigInt(0));
     const [balance, setBalance] = useState(BigInt(0));
 
@@ -65,9 +65,9 @@ function SwapButton({ tokenIn, tokenOut, amount, fee, recipient, onSuccess }: { 
         )
     }
 
-    const handleSuccesfulSwap = () => {
+    const handleSuccesfulSwap = (receipt: any) => {
       refetchBalance()      
-      onSuccess()
+      onSuccess(receipt)
     }
 
     return (
@@ -85,6 +85,7 @@ function SwapButton({ tokenIn, tokenOut, amount, fee, recipient, onSuccess }: { 
             onConfirmed="El Swap fue exitoso!."
             onError="Error al completar el Swap."
             successCallback={handleSuccesfulSwap}
+            errorCallback={onError}
         >
             Ejecutar Swap
         </TransactionButton>
@@ -105,11 +106,17 @@ export default function Swapper() {
 
     const jsConfetti = new JSConfetti()
 
-    const handleSuccessSwapLocal = () => {
-      setAmount(0)      
+    const handleSuccessSwapLocal = (receipt: any) => {
+      console.log('SWAP HASH: ',receipt?.transactionHash)
+      setAmount(0)
       jsConfetti.addConfetti()      
     }
 
+    const handleErrorSwapLocal = (error: any) => {
+        console.log('SWAP ERROR: ',error?.message)
+        setAmount(0)        
+    }
+    
     return <Card className="">
         <CardHeader>
             <CardTitle style={{color:"#0A0FA7"}}>Swap</CardTitle>
@@ -138,6 +145,7 @@ export default function Swapper() {
                     tokenOut={outputToken}
                     amount={toUnits(amount.toString(), inputToken?.decimals ?? 18)}
                     onSuccess={handleSuccessSwapLocal}
+                    onError={handleErrorSwapLocal}
                   />
                 : <></>}
             </div>
