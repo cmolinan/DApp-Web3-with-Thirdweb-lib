@@ -124,11 +124,11 @@ export default function Swapper() {
         <CardContent className="">
             <div className="flex w-[400px] flex-col items-center gap-4">
                 <div className="flex w-full items-center gap-2">
-                  <TokenSelect selectedKey={inputTokenKey} onSelect={setInputTokenKey} />
+                  <TokenSelect selectedKey={inputTokenKey} onSelect={setInputTokenKey} isSwap={true}/>
                   <Input value={amount} placeholder="0" type="number" onChange={(e) => setAmount(parseFloat(e.target.value || "0"))} className="w-full" />                    
                 </div>
                 <div className={cn("flex items-center w-full gap-2", quoteLoading && "animate-pulse")}>
-                  <TokenSelect selectedKey={outputTokenKey} onSelect={setOutputTokenKey} />
+                  <TokenSelect selectedKey={outputTokenKey} onSelect={setOutputTokenKey} isSwap={true}/>
                   <div className="w-full text-slate-600 mx-3 relative h-8">
                       {quoteLoading ? <div className="flex h-full items-center absolute left-0"><Loader2Icon className="animate-spin w-4 h-4" /></div> :
                           <div>{outputAmount && outputToken ? toTokens(outputAmount, outputToken.decimals) : 0}</div>

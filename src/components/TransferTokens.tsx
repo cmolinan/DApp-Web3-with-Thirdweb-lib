@@ -100,7 +100,7 @@ const TransferTokens = () => {
         <CardContent className="">
             <div className="flex w-[400px] flex-col items-center gap-4">
                 <div className="flex w-full items-center gap-2">
-                    <TokenSelect selectedKey={inputTokenKey} onSelect={setInputTokenKey} />
+                    <TokenSelect selectedKey={inputTokenKey} onSelect={setInputTokenKey} isSwap={false}/>
                     {canGetBalance &&
                         <div className="text-sm text-gray-700">Saldo: {toTokens(balance, inputToken?.decimals)}</div>
                     }

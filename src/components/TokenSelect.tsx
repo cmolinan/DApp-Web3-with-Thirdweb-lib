@@ -23,6 +23,7 @@ import { useMemo } from "react"
 type TokenSelectProps = {
     selectedKey?: string;
     onSelect: (tokenKey?: string) => void;
+    isSwap: boolean;
 }
 
 export default function TokenSelect(props: TokenSelectProps) {
@@ -49,19 +50,21 @@ export default function TokenSelect(props: TokenSelectProps) {
                     <CommandInput placeholder="Buscar token..." />
                     <CommandEmpty>No token found.</CommandEmpty>
                     <CommandGroup>
-                        {Object.entries(tokens).map(([key, token]) => (
-                            <CommandItem
-                                key={key}
-                                value={key}
-                                onSelect={(currentValue) => {
-                                    props.onSelect(currentValue !== props.selectedKey ? currentValue : undefined)
-                                    setOpen(false)
-                                }}
-                            >
-                                <Image src={token.image} alt="" width={50} height={50} className={cn("w-4 h-4 mr-2", selectedToken?.symbol === token.symbol ? "opacity-1000" : "opacity-25")} />
-                                {token.symbol}
-                            </CommandItem>
-                        ))}
+                        {Object.entries(tokens)
+                            .filter(([key, token]) => props.isSwap? key !== 'matic':key !== '')
+                            .map(([key, token]) => (
+                                <CommandItem
+                                    key={key}
+                                    value={key}
+                                    onSelect={(currentValue) => {
+                                        props.onSelect(currentValue !== props.selectedKey ? currentValue : undefined)
+                                        setOpen(false)
+                                    }}
+                                >
+                                    <Image src={token.image} alt="" width={50} height={50} className={cn("w-4 h-4 mr-2", selectedToken?.symbol === token.symbol ? "opacity-1000" : "opacity-25")} />
+                                    {token.symbol}
+                                </CommandItem>
+                            ))}
                     </CommandGroup>
                 </Command>
             </PopoverContent>
