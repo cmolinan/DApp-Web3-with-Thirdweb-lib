@@ -24,17 +24,17 @@ export default function Wrapper() {
     return (
         <Popover>
             <PopoverTrigger asChild>
-                <Button className="h-full rounded-xl" disabled={!account} variant="outline">Wrap MATIC</Button>
+                <Button className="h-full rounded-xl" disabled={!account} variant="outline">MATIC -{'>'} WMatic</Button>
             </PopoverTrigger>
             <PopoverContent className="w-80">
                 <Card className="border-none shadow-none">
                     <CardHeader>
-                        <CardTitle>Wrap MATIC</CardTitle>
+                        <CardTitle style={{fontSize: '20px'}}>Convertir MATIC a WMATIC</CardTitle>
                     </CardHeader>
                     <CardContent>
                         <div className="flex items-center gap-2">
                             <Input placeholder="0" type="number" onChange={(e) => setAmount(parseFloat(e.target.value))} />
-                            MATIC
+                            Matic
                         </div>
                         <div className="mt-4 w-full">
                             <TransactionButton
@@ -47,12 +47,12 @@ export default function Wrapper() {
                                     })
                                     return tx;
                                 }}
-                                onSent="Wrapping your MATIC..."
-                                onConfirmed="Successfully wrapped MATIC"
-                                onError="Failed to wrap your MATIC"
+                                onSent="Convirtiendo MATIC en WMatic..."
+                                onConfirmed="Conversion exitosa"
+                                onError="No se pudo convertir a WMatic"
                                 successCallback={() => setAmount(0)}
                             >
-                                Wrap
+                                Convertir
                             </TransactionButton>
                         </div>
                     </CardContent>

@@ -6,6 +6,7 @@ import { useActiveAccount } from "thirdweb/react";
 import { getUser } from '../utils/AuthService';
 import { Button, Popconfirm } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
+import Wrapper from "@/components/Wrapper";
 
 interface HeaderProps {
   logout: () => void;
@@ -42,6 +43,7 @@ const Header: React.FC<HeaderProps> = ({ logout }) => {
         </div>
 
         <div className="flex gap-2 items-stretch">
+            <Wrapper />
             <ConnectButton />
         </div>
       </header>
