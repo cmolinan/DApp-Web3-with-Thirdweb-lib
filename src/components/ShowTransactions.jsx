@@ -43,6 +43,17 @@ const ShowTransactions = () => {
     }    
   }
 
+  let pageSize=10;  //how many rows to show in Tables
+
+  //para el Sorting de la tabla
+  const [sortedInfo, setSortedInfo] = useState({});
+
+  const handleTableChange = (...sorter) => {    
+    const { order, field } = sorter[2]
+    setSortedInfo({ columnKey: field, order });
+  };
+  // ----------------
+  
   useEffect(() => {
     getTransactions()
 
@@ -65,7 +76,9 @@ const ShowTransactions = () => {
         dataIndex: "date",
         align: "center",
         key: 'date',        
-        render: text => <div style={{ textAlign: 'left' }}>{format(text,'yy-MM-dd HH:mm')}</div>,
+        render: text => <div style={{ textAlign: 'left' }}>{text}</div>,
+        sorter: (a, b) => a.date.localeCompare(b.date),
+        sortOrder: sortedInfo.columnKey === 'date' && sortedInfo.order,
       },
       {
         title: <div className="table-antd-header">CHAIN</div>,
@@ -93,7 +106,9 @@ const ShowTransactions = () => {
               <div style={{ textAlign: 'left' }}>
                 {shortenAddress(text)} 
               </div>
-            </Tooltip>        
+            </Tooltip>,
+          sorter: (a, b) => a.from_address.localeCompare(b.from_address),
+          sortOrder: sortedInfo.columnKey === 'from_address' && sortedInfo.order,
         },    
         {
           title: <div className="table-antd-header">ADDRESS DESTINO</div>,
@@ -105,7 +120,9 @@ const ShowTransactions = () => {
               <div style={{ textAlign: 'left' }}>
                 {shortenAddress(text)} 
               </div>
-            </Tooltip>
+            </Tooltip>,
+          sorter: (a, b) => a.to_address.localeCompare(b.to_address),
+          sortOrder: sortedInfo.columnKey === 'to_address' && sortedInfo.order,
         },
         {
           title: <div className="table-antd-header">IMPORTE</div>,
@@ -127,7 +144,9 @@ const ShowTransactions = () => {
               <div style={{ textAlign: 'left' }}>
                 {shortenAddress(text)} 
               </div>
-            </Tooltip>        
+            </Tooltip>,
+          sorter: (a, b) => a.address.localeCompare(b.address),
+          sortOrder: sortedInfo.columnKey === 'address' && sortedInfo.order,           
         },      
         {
           title: <div className="table-antd-header">TOKEN ORIGEN</div>,
@@ -172,9 +191,7 @@ const ShowTransactions = () => {
   const renderTransfers = () => {
     return (
       <>
-        {transferTxns?.length > 0 ? (
-          <div className="table-container">
-            <span style={{fontWeight: 'bold', color: '#0A0FA7', padding: '10px'}}>TRANSFERENCIAS</span>
+        {transferTxns?.length > 0 ? (               
             <Table
               columns={columns("transfers")}
               bordered
@@ -185,11 +202,10 @@ const ShowTransactions = () => {
                               defaultPageSize: 5,
                           }}
             />
-          </div>
         ):  
           <>
             <br /><br />
-            <span>Loading transfers..</span>
+            <span>Cargando transferencias..</span>
           </>
 
         }
@@ -201,8 +217,6 @@ const ShowTransactions = () => {
     return (
       <>
         {swapTxns?.length > 0 ? (        
-          <div className="table-container">
-            <span style={{fontWeight: 'bold', color: '#0A0FA7', padding: '10px'}}>SWAPS</span>
             <Table
               columns={columns("swaps")}
               bordered
@@ -210,14 +224,16 @@ const ShowTransactions = () => {
               size="small"
               pagination={{ position: ['bottomCenter'],
                               showSizeChanger: true,
-                              defaultPageSize: 5,
+                              defaultPageSize: 10,
+                              showSizeChanger: true,
+                              pageSizeOptions: [5, pageSize, pageSize +10, pageSize +20]
                           }}
-            />
-          </div>
+                          onChange={handleTableChange} //inicialmente para el Sort
+            />          
         ):  
           <>
             <br /><br />
-            <span>Loading swaps..</span>
+            <span>Cargando swaps..</span>
           </>
         }
       </>
@@ -228,25 +244,31 @@ const ShowTransactions = () => {
   
   return (
     <div className="table-container">
+      { swapTxns?.length > 0 || transferTxns?.length > 0 ? (
+        <>
+          <span style={{fontWeight: 'bold', color: '#0A0FA7', fontSize: '20px'}}>TRANSACCIONES REALIZADAS</span>
+          <Tabs
+            defaultActiveKey="1"
+            items={[
+              {
+                key: '1',
+                label: 'TRANSFERENCIAS',
+                children: renderTransfers(),
+                icon: <RetweetOutlined />,
+              },
+              {
+                key: '2',
+                label: 'SWAPS',
+                children: renderSwaps(),
+                icon: <SwapOutlined />,
+              },
+            ]}
+          />
+        </>
+        ) : "Cargando ..."
+      }
 
-      <span style={{fontWeight: 'bold', color: '#0A0FA7', fontSize: '20px'}}>TRANSACCIONES REALIZADAS</span>
-      <Tabs
-        defaultActiveKey="1"
-        items={[
-          {
-            key: '1',
-            label: 'TRANSFERENCIAS',
-            children: renderTransfers(),
-            icon: <RetweetOutlined />,
-          },
-          {
-            key: '2',
-            label: 'SWAPS',
-            children: renderSwaps(),
-            icon: <SwapOutlined />,
-          },
-        ]}
-      />
+
     </div>
   
   )

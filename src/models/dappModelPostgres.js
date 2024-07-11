@@ -63,22 +63,23 @@ module.exports = {
     
     let query = ''
     if (mode == 'transfers') {
-      query = 'SELECT  transfers.id,  users.name as username, \
-      chains.name as chain, tokens.name as token,  from_address, to_address, amount, hash, timestamp as date \
+      query = `SELECT  transfers.id,  users.name as username, \
+      chains.name as chain, tokens.name as token,  from_address, \
+      to_address, amount, hash, to_char(timestamp, 'YY-MM-DD HH24:MI') as date \
       FROM  transfers \
       JOIN users ON transfers.user_id = users.id \
       JOIN chains ON transfers.chain_id = chains.id \
-      JOIN tokens ON transfers.token_id = tokens.id'
+      JOIN tokens ON transfers.token_id = tokens.id`
 
     } else if (mode == 'swaps') {
-      query = 'SELECT  swaps.id,  users.name as username, \
+      query = `SELECT  swaps.id,  users.name as username, \
       chains.name as chain,  tokensF.name as from_token, address, \
-      tokensT.name as to_token, amount, hash, timestamp as date \
+      tokensT.name as to_token, amount, hash, to_char(timestamp, 'YY-MM-DD HH24:MI') as date \
       FROM  swaps \
       JOIN users ON swaps.user_id = users.id \
       JOIN chains ON swaps.chain_id = chains.id \
       JOIN tokens as tokensF ON swaps.from_token_id = tokensF.id \
-      JOIN tokens as tokensT ON swaps.to_token_id = tokensT.id'
+      JOIN tokens as tokensT ON swaps.to_token_id = tokensT.id`
     } else throw new Error(`Invalid ${mode}`);
   
     return new Promise((resolve, reject) => {      
