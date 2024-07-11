@@ -1,10 +1,11 @@
 "use client"
 import  { format } from 'date-fns';
 import { useEffect, useState } from "react";
-import { Table, Tooltip } from 'antd';
+import { Tabs, Table, Tooltip } from 'antd';
 import { isMobile, getLocalDate, swalFire } from '../utils/OtherServices';
 import { api_readTransfers } from '../api/dappApiConnection';
 import { handleTokenExpiration } from '@/utils/AuthService';
+import { SwapOutlined , RetweetOutlined } from '@ant-design/icons';
 
 // eslint-disable-next-line react/prop-types
 const ShowTransactions = () => {
@@ -86,7 +87,7 @@ const ShowTransactions = () => {
           title: <div className="table-antd-header">ADDRESS ORIGEN</div>,
           dataIndex: "from_address",
           align: "center",
-          key: 'fromAddress',
+          key: 'from_address',
           render: text =>
             <Tooltip title={text}>
               <div style={{ textAlign: 'left' }}>
@@ -98,7 +99,7 @@ const ShowTransactions = () => {
           title: <div className="table-antd-header">ADDRESS DESTINO</div>,
           dataIndex: "to_address",
           align: "center",
-          key: 'toAddress',        
+          key: 'to_address', 
           render: text => 
             <Tooltip title={text}>
               <div style={{ textAlign: 'left' }}>
@@ -168,11 +169,12 @@ const ShowTransactions = () => {
     return output
   }
 
-  return (
-    <>
-      {transferTxns?.length > 0 ? (
+  const renderTransfers = () => {
+    return (
+      <>
+        {transferTxns?.length > 0 ? (
           <div className="table-container">
-            <span style={{fontWeight: 'bold', color: '#0A0FA7', padding: '10px'}}>TRANSFERS</span>
+            <span style={{fontWeight: 'bold', color: '#0A0FA7', padding: '10px'}}>TRANSFERENCIAS</span>
             <Table
               columns={columns("transfers")}
               bordered
@@ -189,8 +191,16 @@ const ShowTransactions = () => {
             <br /><br />
             <span>Loading transfers..</span>
           </>
-      }
-      {swapTxns?.length > 0 ? (        
+
+        }
+      </>
+    )
+  }
+
+  const renderSwaps = () => {
+    return (
+      <>
+        {swapTxns?.length > 0 ? (        
           <div className="table-container">
             <span style={{fontWeight: 'bold', color: '#0A0FA7', padding: '10px'}}>SWAPS</span>
             <Table
@@ -209,8 +219,36 @@ const ShowTransactions = () => {
             <br /><br />
             <span>Loading swaps..</span>
           </>
-      }
-    </>
+        }
+      </>
+    )
+
+
+  }
+  
+  return (
+    <div className="table-container">
+
+      <span style={{fontWeight: 'bold', color: '#0A0FA7', fontSize: '20px'}}>TRANSACCIONES REALIZADAS</span>
+      <Tabs
+        defaultActiveKey="1"
+        items={[
+          {
+            key: '1',
+            label: 'TRANSFERENCIAS',
+            children: renderTransfers(),
+            icon: <RetweetOutlined />,
+          },
+          {
+            key: '2',
+            label: 'SWAPS',
+            children: renderSwaps(),
+            icon: <SwapOutlined />,
+          },
+        ]}
+      />
+    </div>
+  
   )
 }
 export default ShowTransactions;

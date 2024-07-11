@@ -71,6 +71,15 @@ export default function Home() {
     setIsAuthenticated(false)
   }
 
+  const renderReturn = () => {
+    return (
+      <div style={{paddingBottom: '10px', paddingTop: '10px' }}>
+        <Button style={{color: '#0A0FA7', fontWeight: 'bolder'}}  type="text" size="small" icon={<ArrowLeftOutlined />} onClick={() => changeMenu(0)}>
+          Volver
+        </Button>
+      </div>
+    )
+  }
   const renderMainCode = () => {
     return (
       <main className="flex flex-col items-center justify-center" style={{justifyContent: 'center'}}>
@@ -100,9 +109,7 @@ export default function Home() {
           <div className="home-main">
             { optionMenu == 1 ?
               <div >
-                <Button type="text" size="small" icon={<ArrowLeftOutlined />} onClick={() => changeMenu(0)}>
-                  Volver
-                </Button>
+                {renderReturn()}
                 <TransferTokens />
               </div >
               :null
@@ -110,9 +117,7 @@ export default function Home() {
 
             { optionMenu == 2 ?
               <div >
-                <Button type="text" size="small" icon={<ArrowLeftOutlined />} onClick={() => changeMenu(0)}>
-                  Volver
-                </Button>
+                {renderReturn()}
                 <Swapper />
               </div >
               :null
@@ -120,9 +125,7 @@ export default function Home() {
 
             { optionMenu == 3 ?
               <div >
-                <Button type="text" size="small" icon={<ArrowLeftOutlined />} onClick={() => changeMenu(0)}>
-                  Volver
-                </Button>
+                {renderReturn()}
                 <ShowTransactions />
               </div >
               :null
