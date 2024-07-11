@@ -143,10 +143,17 @@ const ShowTransactions = () => {
           render: text => <div style={{ textAlign: 'left' }}>{text}</div>,
         }, 
         {
-          title: <div className="table-antd-header">IMPORTE</div>,
-          dataIndex: "amount",
+          title: <div className="table-antd-header">IMPORTE ORIGEN</div>,
+          dataIndex: "from_amount",
           align: "center",
-          key: 'amount',
+          key: 'from_amount',
+          render: text => <div style={{ textAlign: 'left' }}>{text}</div>,
+        },
+        {
+          title: <div className="table-antd-header">IMPORTE DESTINO</div>,
+          dataIndex: "to_amount",
+          align: "center",
+          key: 'to_amount',
           render: text => <div style={{ textAlign: 'left' }}>{text}</div>,
         }
       )

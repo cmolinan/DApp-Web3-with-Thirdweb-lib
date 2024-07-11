@@ -38,13 +38,14 @@ module.exports = {
   saveSwap: (data) => {
     return new Promise((resolve, reject) => {
       connection.query(`INSERT INTO swaps(
-        chain_id, address, from_token_id, to_token_id, amount, user_id, hash) values($1,$2,$3,$4,$5,$6,$7) returning *`,
+        chain_id, address, from_token_id, to_token_id, from_amount, to_amount, user_id, hash) values($1,$2,$3,$4,$5,$6,$7,$8) returning *`,        
         [
           data.chainId,
           data.address,
           data.fromTokenId,
           data.toTokenId,
-          data.amount,          
+          data.fromAmount,
+          data.toAmount,
           data.userId,
           data.hash
         ],
@@ -73,7 +74,7 @@ module.exports = {
     } else if (mode == 'swaps') {
       query = 'SELECT  swaps.id,  users.name as username, \
       chains.name as chain,  tokensF.name as from_token, address, \
-      tokensT.name as to_token,  amount, hash, timestamp as date \
+      tokensT.name as to_token,  from_amount,  to_amount, hash, timestamp as date \
       FROM  swaps \
       JOIN users ON swaps.user_id = users.id \
       JOIN chains ON swaps.chain_id = chains.id \
