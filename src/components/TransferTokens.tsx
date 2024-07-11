@@ -130,7 +130,7 @@ const TransferTokens = () => {
           }
           else {
             console.log("Error en saveTransaction :", error)
-            // swalFire('nok', 'Serie Documental', error.data?.message)
+            swalFire('nok', 'Transfer', error.data?.message)
             console.log("No se pudo grabar la Transaccion");
     
           }

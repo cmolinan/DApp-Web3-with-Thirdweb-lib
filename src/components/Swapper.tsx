@@ -16,6 +16,9 @@ import { Loader2Icon } from "lucide-react";
 import { allowance as thirdwebAllowance, balanceOf } from "thirdweb/extensions/erc20";
 import getContract from "@/lib/get-contract";
 import JSConfetti from 'js-confetti'
+import { api_saveTransaction } from '../api/dappApiConnection';
+import { getUser } from '../utils/AuthService';
+import { swalFire } from '../utils/OtherServices';
 
 const fetchAllowance = async (tokenIn: Token, recipient: Address) => {
     return thirdwebAllowance({ contract: getContract({ address: tokenIn.address }), owner: recipient, spender: ROUTER });
@@ -106,8 +109,65 @@ export default function Swapper() {
 
     const jsConfetti = new JSConfetti()
 
-    const handleSuccessSwapLocal = (receipt: any) => {
+    // For temporarily use. TODO: get this data from API Backend
+    const tokensList: { [id: string]: { tokenId: string, chainId: string } } = {
+      "matic": {
+          chainId: "1",
+          tokenId: "1"
+      },
+      "usdc": {
+          chainId: "1",
+          tokenId: "4"
+      },
+      "usdt": {
+          chainId: "1",
+          tokenId: "7"
+      },
+      "wmatic": {
+          chainId: "1",
+          tokenId: "23"
+      },
+    }
+  
+    const saveSwap = async (mode: string, receipt: any) => {
+                
+      //Call API to Save Swap transaction
+      let values = {}
+
+      try {            
+        if (inputTokenKey && outputTokenKey) {
+          values = {            
+            chainId: tokensList[inputTokenKey].chainId,
+            address: account?.address,
+            fromTokenId: tokensList[inputTokenKey].tokenId,
+            toTokenId: tokensList[outputTokenKey].tokenId,
+            amount,            
+            userId: getUser()?.id,
+            hash: receipt?.transactionHash
+          }
+        } else throw new Error(`Token no valido:`);
+          
+        await api_saveTransaction(mode, values);               
+        swalFire('ok', 'Swap', 'Grabación')
+
+      } catch (error: any) {
+        if (error?.data?.message === 'Token expirado') {
+          console.error('Token Expirado');
+  
+        }
+        else {
+          console.log("Error en saveTransaction :", error)
+          swalFire('nok', 'Swap', error.data?.message)
+          console.log("No se pudo grabar la Transaccion");
+        }
+      }
+    }
+    
+    const handleSuccessSwapLocal = async (receipt: any) => {
       console.log('SWAP HASH: ',receipt?.transactionHash)
+      // Save swap txn
+      await saveSwap("swap", receipt)
+
       setAmount(0)
       jsConfetti.addConfetti()      
     }
