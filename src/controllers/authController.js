@@ -78,7 +78,10 @@ module.exports = {
         return res.json({
           success: 1,
           message: "Login successfully",
+          id: results.id,
           name: results.name,
+          email: results.email,
+          phone: results.phone,
           token: jsontoken,
           expires: expirationDate.toLocaleString()
         });

@@ -39,7 +39,7 @@ export default function Home() {
     try {
       const response = await api_login(user, password);
       if (response.success) {
-        saveTokenAndUser(response.token, { name: response.name, email: user });
+        saveTokenAndUser(response.token, { id: response.id, name: response.name, email: response.email, phone: response.phone });
         setIsAuthenticated(true);
       } else {
 

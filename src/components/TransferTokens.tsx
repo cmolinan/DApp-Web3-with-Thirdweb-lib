@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "./ui/input";
 import { Address, toTokens, toUnits } from "thirdweb";
-import { useActiveAccount } from "thirdweb/react";
+import { useActiveWalletChain, useActiveAccount } from "thirdweb/react";
 import { tokens } from "@/constants";
 import TransactionButton from "./TransactionButton";
 import TokenSelect from "./TokenSelect";
@@ -12,6 +12,9 @@ import { balanceOf } from "thirdweb/extensions/erc20";
 import getContract from "@/lib/get-contract";
 import transfer from "@/transactions/transfer";
 import JSConfetti from 'js-confetti'
+import { api_saveTransaction } from '../api/dappApiConnection';
+import { getUser } from '../utils/AuthService';
+import { swalFire } from '../utils/OtherServices';
 
 const fetchBalance = async (tokenIn: Token, recipient: Address) => {
     return balanceOf({ contract: getContract({ address: tokenIn.address }), address: recipient });
@@ -78,9 +81,67 @@ const TransferTokens = () => {
         if (canGetBalance) refetchBalance()
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [inputToken, account?.address]);
+    
+    // For temporarily use. TODO: get this data from API Backend
+    const tokensList: { [id: string]: { tokenId: string, chainId: string } } = {
+        "matic": {
+            chainId: "1",
+            tokenId: "1"
+        },
+        "usdc": {
+            chainId: "1",
+            tokenId: "4"
+        },
+        "usdt": {
+            chainId: "1",
+            tokenId: "7"
+        },
+        "wmatic": {
+            chainId: "1",
+            tokenId: "23"
+        },
+    }
 
-    const handleSuccesfulTransfer = (receipt: any) => {
+    const saveTransfer = async (mode: string, receipt: any) => {
+                
+        //Call API to Save Transfer transaction
+        let values = {}
+
+        try {            
+            if (inputTokenKey) {
+                values = {            
+                chainId: tokensList[inputTokenKey].chainId,
+                tokenId: tokensList[inputTokenKey].tokenId,
+                from: account?.address,
+                to: destAddress,
+                amount,
+                userId: getUser()?.id,
+                hash: receipt?.transactionHash
+                }
+            } else throw new Error(`Token no valido:`);
+            
+          await api_saveTransaction(mode, values);               
+          swalFire('ok', 'Transferencia', 'Grabación')
+
+        } catch (error: any) {
+          if (error?.data?.message === 'Token expirado') {
+            console.error('Token Expirado');
+    
+          }
+          else {
+            console.log("Error en saveTransaction :", error)
+            // swalFire('nok', 'Serie Documental', error.data?.message)
+            console.log("No se pudo grabar la Transaccion");
+    
+          }
+        }
+      }
+    
+    const handleSuccesfulTransfer = async (receipt: any) => {
         console.log('HASH: ',receipt?.transactionHash)
+
+        // Save transfer txn
+        await saveTransfer("transfer", receipt)
         refetchBalance()
         setAmount(0)
         setDestAddress('')

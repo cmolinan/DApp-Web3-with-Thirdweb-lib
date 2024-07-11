@@ -20,18 +20,16 @@ export const api_readTransfers = async (mode) => axios(
     throw (error.response)
   });
 
-export const api_saveTransfer = async (valores) => axios(
+//Save transfers or swaps Transactions
+export const api_saveTransaction = async (mode, values) => axios(
   {
     method: 'post',
     maxBodyLength: Infinity,
-    url: `${getBackendURL()}/dapp/txn/transfer`,
+    url: `${getBackendURL()}/dapp/txn/${mode}`,
     headers: {
       'Authorization': `Bearer ${getAPIToken()}`
     },
-    data: {
-      [param]: valores,  
-    }
-
+    data:values
   })
   .then((response) => {
     return response.data
