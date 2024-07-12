@@ -1,17 +1,20 @@
 "use client"
 import  { format } from 'date-fns';
 import { useEffect, useState } from "react";
-import { Tabs, Table, Tooltip } from 'antd';
+import { Button, Tabs, Table, Tooltip } from 'antd';
 import { isMobile, getLocalDate, swalFire } from '../utils/OtherServices';
 import { api_readTransfers } from '../api/dappApiConnection';
 import { handleTokenExpiration } from '@/utils/AuthService';
 import { SwapOutlined , RetweetOutlined } from '@ant-design/icons';
+import { useActiveWalletChain } from "thirdweb/react";
 
 // eslint-disable-next-line react/prop-types
 const ShowTransactions = () => {
 
   const [transferTxns, setTransferTxns] = useState([]);
   const [swapTxns, setSwapTxns] = useState([]);
+  
+  const prefixHash = useActiveWalletChain()?.blockExplorers?.[0].url + "/tx/"
 
   // Download Transfers transactions
   const getTransactions= async () => {
@@ -173,14 +176,21 @@ const ShowTransactions = () => {
 
     output.push(
     {
-      title: <div className="table-antd-header">HASH</div>,
+      title: <div className="table-antd-header">Ver en explorer</div>,
       dataIndex: "hash",
       align: "center",
       key: 'hash',        
-      render: text => 
+      render: text =>
         <Tooltip title={text}>
-          <div style={{ textAlign: 'left' }}>
-            {shortenAddress(text)} 
+          <div style={{ textAlign: 'left' }}>            
+            <Button
+              type="link"
+              href={prefixHash + text}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {shortenAddress(text)}
+            </Button>
           </div>
         </Tooltip>
     })

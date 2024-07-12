@@ -121,7 +121,7 @@ const TransferTokens = () => {
             } else throw new Error(`Token no valido:`);
             
           await api_saveTransaction(mode, values);               
-          swalFire('ok', 'Transferencia', 'Grabación')
+          swalFire('ok', 'Transferencia', 'Transacción')
 
         } catch (error: any) {
           if (error?.data?.message === 'Token expirado') {
