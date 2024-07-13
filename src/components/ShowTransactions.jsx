@@ -26,6 +26,7 @@ const ShowTransactions = () => {
       console.log(`Try en getTransactions ${txnType}`)
       try {
         const response = await api_readTransfers(txnType);
+        response.data.sort((a, b) => b.date.localeCompare(a.date))
         if (response.success == 1) {
           i ==1 ? setTransferTxns(response.data):setSwapTxns(response.data)
         } else {        
