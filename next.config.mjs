@@ -1,3 +1,6 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     images: {
@@ -9,10 +12,7 @@ const nextConfig = {
                 pathname: '**/*',
             },
         ],
-    },
-    env: {
-        NODE_TLS_REJECT_UNAUTHORIZED: '0',
-    },
+    }
 };
 
 export default nextConfig;
